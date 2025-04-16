@@ -27,9 +27,11 @@
         display: flex;
         min-height: calc(100vh - 220px);
         padding: 10px;
-        padding-bottom: 240px; /* Increased padding */
+        padding-bottom: 240px;
         box-sizing: border-box;
         gap: 10px;
+        position: relative;
+        transition: all 0.3s ease-in-out;
     }
 
     .canvas-container {
@@ -40,6 +42,7 @@
         min-width: 0;
         padding: 10px;
         margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
     }
 
     #ICG-canvas {
@@ -50,6 +53,10 @@
         margin-bottom: 30px;
         max-width: 100%;
         height: auto;
+        width: 100%;
+        height: auto;
+        max-width: 1060px;
+        transition: all 0.3s ease-in-out;
     }
 
     .control-panel {
@@ -65,7 +72,7 @@
         flex-shrink: 0;
         overflow-y: auto;
         overflow-x: hidden;
-        max-height: calc(100vh - 260px); /* Adjusted height */
+        max-height: calc(100vh - 260px);
         scrollbar-width: thin;
         scrollbar-color: #aaa0f8 #f5f5f5;
         padding: 15px;
@@ -73,6 +80,38 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border: 2px solid #86c3fe;
         margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        background-color: #f5f5f5;
+    }
+
+    .left-panel.collapsed {
+        margin-left: -190px;
+    }
+
+    .right-panel.collapsed {
+        margin-right: -190px;
+    }
+
+    .left-panel.collapsed .panel-toggle {
+        right: -24px;
+    }
+
+    .right-panel.collapsed .panel-toggle {
+        left: -24px;
+    }
+
+    /* Canvas expansion when panels are collapsed */
+    .left-panel.collapsed ~ .canvas-container #ICG-canvas {
+        max-width: 1260px;
+    }
+
+    .canvas-container ~ .right-panel.collapsed ~ #ICG-canvas {
+        max-width: 1260px;
+    }
+
+    .left-panel.collapsed ~ .canvas-container ~ .right-panel.collapsed ~ #ICG-canvas {
+        max-width: 1460px;
     }
 
     .bottom-container {
@@ -84,8 +123,62 @@
         padding: 20px;
         box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         z-index: 1000;
-        height: 200px; /* Increased height */
+        height: 200px;
         box-sizing: border-box;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .bottom-container.collapsed {
+        transform: translateY(180px);
+    }
+
+    .panel-toggle {
+        position: absolute;
+        width: 24px;
+        height: 60px;
+        background-color: #86c3fe;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 1001;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .left-panel .panel-toggle {
+        right: -24px;
+        border-radius: 0 5px 5px 0;
+    }
+
+    .right-panel .panel-toggle {
+        left: -24px;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .bottom-toggle {
+        position: absolute;
+        height: 24px;
+        width: 60px;
+        background-color: #86c3fe;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        border-radius: 5px 5px 0 0;
+        left: 50%;
+        top: -24px;
+        transform: translateX(-50%);
+        z-index: 1001;
+    }
+
+    .panel-toggle:hover, .bottom-toggle:hover {
+        background-color: #aaa0f8;
     }
 
     .bottom-scroll {
@@ -119,6 +212,8 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        overflow-y: auto;  /* Add scroll for overflow content */
+        max-height: 140px; /* Match the bottom panel height */
     }
 
     .bottom-panel table {
@@ -256,6 +351,97 @@
     .bottom-scroll::-webkit-scrollbar-thumb:hover {
         background: #e395dc;
     }
+
+    /* Ensure smooth transitions */
+    * {
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Add styles for the RGB Light Controls container */
+    .rgb-light-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: auto;
+    }
+
+    .light-color-section {
+        margin-bottom: 10px;
+    }
+
+    .light-effects-section {
+        margin-top: auto; /* Push to bottom */
+        padding-top: 10px;
+    }
+
+    .texture-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: auto;
+        padding: 5px;
+    }
+
+    .texture-import-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        background-color: rgba(134, 195, 254, 0.05);
+        border-radius: 4px;
+    }
+
+    .texture-import-controls select {
+        background-color: #f5f5f5;
+        color: #aaa0f8;
+        border: 1px solid #aaa0f8;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+    .texture-import-controls button:hover {
+        background: #aaa0f8;
+        transition: background-color 0.3s ease;
+    }
+
+    #current-texture {
+        color: #aaa0f8;
+        word-break: break-all;
+    }
+
+    .texture-section {
+        margin-bottom: 10px;
+    }
+
+    .texture-settings {
+        margin-bottom: 10px;
+    }
+
+    .texture-blend {
+        margin-bottom: 10px;
+    }
+
+    .model-texture-selector {
+        background-color: rgba(134, 195, 254, 0.05);
+        padding: 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .model-texture-selector select {
+        background-color: #f5f5f5;
+        color: #aaa0f8;
+        border: 1px solid #aaa0f8;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+    #texture-selectors-container {
+        max-height: 200px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        padding-right: 5px;
+    }
 </style>
 <!-- 
     TODO HERE: 
@@ -276,10 +462,44 @@
     varying vec3 lightKdKsCDs[3];
     varying float Ka_val;
     varying vec3 ambient_lightColor;
+    varying vec2 vTextureCoord;  // Add varying for texture coordinates
 
     varying vec4 fragcolor;   // for gouraud shading
 
+    uniform sampler2D uSampler;  // Add texture sampler
+    uniform int useTexture;      // Flag to determine if texture should be used
+    uniform int textureBlendMode;
+    uniform float textureBlendFactor;
+
+    // Function for Toon shading levels
+    vec3 toonify(float intensity) {
+        if (intensity > 0.95) return vec3(1.0, 1.0, 1.0);
+        else if (intensity > 0.5) return vec3(0.7, 0.7, 0.7);
+        else if (intensity > 0.25) return vec3(0.35, 0.35, 0.35);
+        else return vec3(0.1, 0.1, 0.1);
+    }
+
+    // Function to blend colors based on blend mode
+    vec3 blendColors(vec3 baseColor, vec3 textureColor) {
+        if (textureBlendMode == 1) {  // Multiply
+            return mix(baseColor, baseColor * textureColor, textureBlendFactor);
+        } else if (textureBlendMode == 2) {  // Add
+            return mix(baseColor, min(baseColor + textureColor, vec3(1.0)), textureBlendFactor);
+        } else if (textureBlendMode == 3) {  // Blend
+            return mix(baseColor, textureColor, textureBlendFactor);
+        }
+        return textureColor;  // Replace (default)
+    }
+
     void main(void) {
+        vec3 baseColor = vertexColor;
+        
+        // Apply texture if enabled
+        if (useTexture == 1) {
+            vec4 texColor = texture2D(uSampler, vTextureCoord);
+            baseColor = blendColors(baseColor, texColor.rgb);
+        }
+
         if(shading_mode[0] == 0.0) {  // Flat shading
             // Calculate face normal using derivatives
             vec3 dx = dFdx(fragPosition);
@@ -304,7 +524,7 @@
                     specular = ks * lightColors[i] * pow(max(dot(N, H), 0.0), shininess);
                 }
 
-                finalColor += vertexColor * (ambient + diffuse) + specular;
+                finalColor += baseColor * (ambient + diffuse) + specular;
             }
             gl_FragColor = vec4(finalColor, 1.0);
         }
@@ -331,8 +551,151 @@
                     specular = ks * lightColors[i] * pow(max(dot(N, H), 0.0), shininess);
                 }
 
-                finalColor += vertexColor * (ambient + diffuse) + specular;
+                finalColor += baseColor * (ambient + diffuse) + specular;
             }
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+        else if(shading_mode[0] == 3.0) {  // Toon shading
+            vec3 finalColor = vec3(0.0, 0.0, 0.0);
+            vec3 N = normalize(fragNormal);
+            vec3 V = -normalize(fragPosition);
+            vec3 ambient = Ka_val * ambient_lightColor;
+
+            for(int i = 0; i < 3; i++) {
+                float kd = lightKdKsCDs[i][0];
+                vec3 L = normalize(lightLocations[i] - fragPosition);
+                
+                // Calculate light intensity
+                float intensity = max(dot(N, L), 0.0);
+                vec3 toonLevel = toonify(intensity);
+                
+                // Apply toon shading with ambient
+                vec3 diffuse = kd * lightColors[i] * toonLevel;
+                finalColor += baseColor * (ambient + diffuse);
+            }
+
+            // Add outline
+            float edgeFactor = dot(N, V);
+            if(edgeFactor < 0.3) {
+                finalColor = vec3(0.0, 0.0, 0.0);  // Black outline
+            }
+
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+        else if(shading_mode[0] == 4.0) {  // Blinn-Phong shading
+            vec3 finalColor = vec3(0.0, 0.0, 0.0);
+            vec3 N = normalize(fragNormal);
+            vec3 V = -normalize(fragPosition);
+            vec3 ambient = Ka_val * ambient_lightColor;
+
+            for(int i = 0; i < 3; i++) {
+                float kd = lightKdKsCDs[i][0];
+                float ks = lightKdKsCDs[i][1];
+                float shininess = lightKdKsCDs[i][2] * 2.0; // Increased shininess for Blinn-Phong
+
+                vec3 L = normalize(lightLocations[i] - fragPosition);
+                vec3 H = normalize(L + V); // Blinn-Phong uses halfway vector
+
+                vec3 diffuse = kd * lightColors[i] * max(dot(N, L), 0.0);
+                vec3 specular = vec3(0.0);
+                
+                // Blinn-Phong specular calculation
+                if(dot(N, L) > 0.0) {
+                    float spec = pow(max(dot(N, H), 0.0), shininess);
+                    specular = ks * lightColors[i] * spec;
+                }
+
+                finalColor += baseColor * (ambient + diffuse) + specular;
+            }
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+        else if(shading_mode[0] == 5.0) {  // PBR shading
+            vec3 N = normalize(fragNormal);
+            vec3 V = normalize(-fragPosition);
+
+            // Enhanced PBR material properties
+            float metallic = 0.2;     // Further reduced metallic for more natural look
+            float roughness = 0.3;    // Lower roughness for stronger specular
+            vec3 albedo = baseColor * 1.2; // Brightened base color
+            
+            // Increased base reflectance for more pronounced specular
+            vec3 F0 = vec3(0.16); 
+            F0 = mix(F0, albedo, metallic);
+
+            // Reflectance equation
+            vec3 Lo = vec3(0.0);
+            
+            for(int i = 0; i < 3; i++) {
+                // Enhanced per-light radiance calculation
+                vec3 L = normalize(lightLocations[i] - fragPosition);
+                vec3 H = normalize(V + L);
+                float distance = length(lightLocations[i] - fragPosition);
+                
+                // Improved attenuation with better distance falloff
+                float constant = 1.0;
+                float linear = 0.07;
+                float quadratic = 0.017;
+                float attenuation = 1.0 / (constant + linear * distance + quadratic * distance * distance);
+                
+                // Significantly increased light intensity
+                vec3 radiance = lightColors[i] * attenuation * 5.0;
+
+                // Cook-Torrance BRDF with enhanced specular
+                float NDF = DistributionGGX(N, H, roughness);
+                float G = GeometrySmith(N, V, L, roughness);
+                vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
+
+                vec3 numerator = NDF * G * F;
+                float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+                vec3 specular = numerator / denominator * 1.5; // Enhanced specular intensity
+
+                vec3 kS = F;
+                vec3 kD = vec3(1.0) - kS;
+                kD *= 1.0 - metallic;
+
+                float NdotL = max(dot(N, L), 0.0);
+                Lo += (kD * albedo / PI + specular) * radiance * NdotL;
+            }
+
+            // Enhanced ambient lighting with improved IBL approximation
+            float ambientStrength = Ka_val * 3.0; // Further increased ambient strength
+            vec3 ambient = ambientStrength * ambient_lightColor * albedo;
+            
+            // Improved ambient occlusion with better normal-based shading
+            float upDot = max(dot(N, vec3(0.0, 1.0, 0.0)), 0.0);
+            float ao = mix(0.9, 1.0, upDot);
+            ambient *= ao;
+
+            // Add rim lighting for enhanced edge definition
+            float rimDot = 1.0 - max(dot(N, V), 0.0);
+            float rimAmount = pow(rimDot, 3.0);
+            vec3 rim = rimAmount * ambient_lightColor * 0.5;
+
+            vec3 finalColor = ambient + Lo + rim;
+
+            // Enhanced HDR tonemapping (Modified ACES-like)
+            const float a = 2.8;   // Increased contrast
+            const float b = 0.05;  // Increased toe region
+            const float c = 2.43;
+            const float d = 0.59;
+            const float e = 0.14;
+            finalColor = (finalColor * (a * finalColor + b)) / (finalColor * (c * finalColor + d) + e);
+
+            // Adjusted gamma for extra brightness
+            finalColor = pow(finalColor, vec3(1.0/1.8)); // Reduced gamma for more brightness
+
+            // Enhanced color saturation and vibrance
+            float luminance = dot(finalColor, vec3(0.2126, 0.7152, 0.0722));
+            float saturationAmount = 1.4; // Increased saturation
+            finalColor = mix(vec3(luminance), finalColor, saturationAmount);
+
+            // Add subtle color enhancement
+            vec3 colorBoost = vec3(1.1, 1.05, 1.0); // Slight warm tint
+            finalColor *= colorBoost;
+
+            // Ensure we don't exceed maximum brightness while preserving color
+            finalColor = clamp(finalColor, 0.0, 1.0);
+
             gl_FragColor = vec4(finalColor, 1.0);
         }
     }
@@ -352,6 +715,7 @@
     attribute vec3 aVertexPosition;
     attribute vec3 aFrontColor;
     attribute vec3 aVertexNormal;
+    attribute vec2 aTextureCoord;  // Add texture coordinate attribute
 
     uniform vec3 lightLoc[3];
     uniform vec3 lightColor[3];
@@ -360,6 +724,8 @@
     uniform mat4 uPMatrix;
     uniform float Ka;
     uniform vec3 ambient_color;
+    uniform vec2 textureScale;
+    uniform vec2 textureOffset;
     
     uniform int mode;
     uniform float volume;
@@ -377,10 +743,14 @@
     varying vec3 lightKdKsCDs[3];
     varying float Ka_val;
     varying vec3 ambient_lightColor;
+    varying vec2 vTextureCoord;  // Add varying for texture coordinates
 
     varying vec4 fragcolor; // used by Gouraud shading
 
     void main(void) {
+        // Pass texture coordinates to fragment shader with scaling and offset
+        vTextureCoord = (aTextureCoord * textureScale) + textureOffset;
+
         // Pass through values needed for all shading modes
         Ka_val = Ka;
         ambient_lightColor = ambient_color;
@@ -481,13 +851,13 @@
         vec3.create([-90., 0., -50.])
     ];
     var obj_default_scale = [
-        vec3.create([0.2, 0.2, 0.2]),
-        vec3.create([0.05, 0.05, 0.05]),
-        vec3.create([0.1, 0.1, 0.1]),
-        vec3.create([0.2, 0.2, 0.2]),
-        vec3.create([0.2, 0.2, 0.2]),
-        vec3.create([0.05, 0.05, 0.05]),
-        vec3.create([0.1, 0.1, 0.1])
+        vec3.create([0.2, 0.2, 0.2]),      // Default scale (Teapot reference)
+        vec3.create([0.2, 0.2, 0.2]),      // Adjusted to match Teapot
+        vec3.create([0.2, 0.2, 0.2]),      // Adjusted to match Teapot
+        vec3.create([0.2, 0.2, 0.2]),      // Adjusted to match Teapot
+        vec3.create([0.2, 0.2, 0.2]),      // Adjusted to match Teapot
+        vec3.create([0.2, 0.2, 0.2]),      // Adjusted to match Teapot
+        vec3.create([0.2, 0.2, 0.2])       // Adjusted to match Teapot
     ];
     var obj_default_shear = vec3.create([90., 90., 90.]);
     // light parameters
@@ -594,6 +964,8 @@
         gl.enableVertexAttribArray(shaderProgram.vertexFrontColorAttribute);
         shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
         gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
+        shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+        gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
 
         shaderProgram.pMatrixUniform  = gl.getUniformLocation(shaderProgram, "uPMatrix");
         shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -631,6 +1003,14 @@
         
         audio.play();
         gl.uniform1f( gl.getUniformLocation(shaderProgram, "volume"), 0.);
+
+        // Initialize texture uniforms
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 0);
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureScale"), 1.0, 1.0);
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureOffset"), 0.0, 0.0);
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "textureBlendMode"), 0);
+        gl.uniform1f(gl.getUniformLocation(shaderProgram, "textureBlendFactor"), 1.0);
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "uSampler"), 0);
     }
 
     function setMatrixUniforms(obj) {
@@ -660,6 +1040,15 @@
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(objData.vertexFrontcolors), gl.STATIC_DRAW);
         obj.VertexFrontColorBuffer.itemSize = 3;
         obj.VertexFrontColorBuffer.numItems = objData.vertexFrontcolors.length / 3;
+
+        // Add texture coordinate buffer
+        if (objData.vertexTextureCoords) {
+            obj.VertexTextureCoordBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, obj.VertexTextureCoordBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(objData.vertexTextureCoords), gl.STATIC_DRAW);
+            obj.VertexTextureCoordBuffer.itemSize = 2;
+            obj.VertexTextureCoordBuffer.numItems = objData.vertexTextureCoords.length / 2;
+        }
     }
 
     function loadObj(obj) {
@@ -683,7 +1072,6 @@
 
         for(var i=0 ; i<obj_vec.length ; ++i)
         {
-
             if (obj_vec[i].VertexPositionBuffer == null ||  obj_vec[i].VertexNormalBuffer == null || obj_vec[i].VertexFrontColorBuffer == null) {
                 continue;
             }
@@ -697,7 +1085,6 @@
             obj_vec[i].shear();
             setMatrixUniforms(obj_vec[i]);
 
-
             gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, obj_vec[i].VertexPositionBuffer.itemSize,  gl.FLOAT, false, 0, 0);
 
@@ -706,6 +1093,21 @@
 
             gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexNormalBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, obj_vec[i].VertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            // Bind texture coordinates if available
+            if (obj_vec[i].VertexTextureCoordBuffer) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexTextureCoordBuffer);
+                gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, obj_vec[i].VertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            }
+
+            // Bind texture if available for this model
+            if (modelTextures[i]) {
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, modelTextures[i]);
+                gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 1);
+            } else {
+                gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 0);
+            }
 
             gl.uniform3fv(gl.getUniformLocation(shaderProgram, "lightLoc"), light_locations);
             gl.uniform3fv(gl.getUniformLocation(shaderProgram, "lightColor"), light_colors);
@@ -774,10 +1176,75 @@
         light_locations[lightid * 3 + 2] = document.getElementById(lightid + "_llocZ").value;
     }
 
-    function update_light_color(lightid){
-        light_colors[lightid * 3] = document.getElementById(lightid + "_lR").value;
-        light_colors[lightid * 3 + 1] = document.getElementById(lightid + "_lG").value;
-        light_colors[lightid * 3 + 2] = document.getElementById(lightid + "_lB").value;
+    function update_light_color(lightid) {
+        light_colors[lightid * 3] = parseFloat(document.getElementById(lightid + "_lR").value);
+        light_colors[lightid * 3 + 1] = parseFloat(document.getElementById(lightid + "_lG").value);
+        light_colors[lightid * 3 + 2] = parseFloat(document.getElementById(lightid + "_lB").value);
+    }
+
+    function setLightPreset(lightid, r, g, b) {
+        document.getElementById(lightid + "_lR").value = r;
+        document.getElementById(lightid + "_lG").value = g;
+        document.getElementById(lightid + "_lB").value = b;
+        update_light_color(lightid);
+    }
+
+    // Add color mixing function for creating interesting effects
+    function mixLights() {
+        var light0R = parseFloat(document.getElementById("0_lR").value);
+        var light0G = parseFloat(document.getElementById("0_lG").value);
+        var light0B = parseFloat(document.getElementById("0_lB").value);
+        var light1R = parseFloat(document.getElementById("1_lR").value);
+        var light1G = parseFloat(document.getElementById("1_lG").value);
+        var light1B = parseFloat(document.getElementById("1_lB").value);
+
+        // Mix colors and update both lights
+        setLightPreset(0, (light0R + light1R)/2, (light0G + light1G)/2, (light0B + light1B)/2);
+        setLightPreset(1, (light0R + light1R)/2, (light0G + light1G)/2, (light0B + light1B)/2);
+    }
+
+    // Add animation for color cycling
+    let colorCycleInterval = null;
+    function toggleColorCycle() {
+        if (colorCycleInterval === null) {
+            let hue = 0;
+            colorCycleInterval = setInterval(() => {
+                hue = (hue + 1) % 360;
+                // Convert HSL to RGB
+                let rgb = hslToRgb(hue/360, 1, 0.5);
+                setLightPreset(0, rgb[0], rgb[1], rgb[2]);
+            }, 50);
+        } else {
+            clearInterval(colorCycleInterval);
+            colorCycleInterval = null;
+        }
+    }
+
+    // HSL to RGB conversion helper
+    function hslToRgb(h, s, l) {
+        let r, g, b;
+
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            function hue2rgb(p, q, t) {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            }
+
+            let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            let p = 2 * l - q;
+
+            r = hue2rgb(p, q, h + 1/3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1/3);
+        }
+
+        return [r, g, b];
     }
     
     function update_trans(objid){
@@ -879,13 +1346,35 @@
 
     function addSelectedModel(modelName) {
         var index = obj_names.length;
-        if (index >= 7) return; // Limit to 7 objects for performance
+        
+        // Calculate X position based on index, with dynamic spacing
+        var spacing = 15; // Base spacing between objects
+        var xOffset = (index - Math.floor(index / 2)) * spacing;
+        var zPos = -37; // Default Z position
+        
+        // Adjust position for specific models
+        switch(modelName) {
+            case "Mercedes.json":
+                zPos = -20;
+                break;
+            case "Patchair.json":
+                zPos = -25;
+                break;
+            case "Longteap.json":
+                zPos = -30;
+                break;
+            case "Fighter.json":
+                zPos = -40;
+                break;
+        }
+        
+        var defaultTrans = vec3.create([xOffset, 0, zPos]);
         
         obj_names.push(modelName);
         obj_vec.push(new CGObject(index, modelName, 
-            obj_default_trans[index], 
-            obj_default_rotate[index], 
-            obj_default_scale[index], 
+            defaultTrans,
+            obj_default_rotate[0], 
+            obj_default_scale[0], 
             obj_default_shear));
         loadObj(obj_vec[index]);
         
@@ -895,8 +1384,246 @@
         option.value = index;
         option.text = modelName.replace(".json", "");
         selector.add(option);
+
+        // Update the model's scale based on its name
+        var scale = 0.5; // Default Teapot scale
+        switch(modelName) {
+            case "Mercedes.json":
+                scale = 50;
+                break;
+            case "Plant.json":
+                scale = 5;
+                break;
+            case "Patchair.json":
+                scale = 50;
+                break;
+            case "Mig27.json":
+                scale = 5;
+                break;
+            case "Longteap.json":
+                scale = 50;
+                break;
+            case "Kangaroo.json":
+                scale = 5;
+                break;
+            case "Fighter.json":
+                scale = 50;
+                break;
+            case "Easter.json":
+                scale = 5;
+                break;
+            case "Csie.json":
+                scale = 5;
+                break;
+            case "Church_s.json":
+                scale = 5;
+                break;
+            case "Car_road.json":
+                scale = 5;
+                break;
+        }
+        
+        // Apply the calculated scale
+        obj_vec[index].scale_vec = vec3.create([scale, scale, scale]);
+        
+        // Update scale sliders for the newly added object
+        if (index === parseInt(document.getElementById("object_selector").value)) {
+            document.getElementById("selected_scaleX").value = scale;
+            document.getElementById("selected_scaleY").value = scale;
+            document.getElementById("selected_scaleZ").value = scale;
+        }
     }
 
+    function handleModelSelection(checkbox) {
+        if (checkbox.checked) {
+            addSelectedModel(checkbox.value);
+            // Update texture selectors after adding a model
+            updateTextureSelectors();
+        } else {
+            // Remove model
+            var index = obj_names.indexOf(checkbox.value);
+            if (index > -1) {
+                obj_names.splice(index, 1);
+                obj_vec.splice(index, 1);
+                
+                // Update remaining objects' indices
+                for (var i = index; i < obj_vec.length; i++) {
+                    obj_vec[i].id = i;
+                }
+                
+                // Update object selector
+                var selector = document.getElementById("object_selector");
+                selector.remove(index);
+
+                // Remove texture assignment
+                delete modelTextures[index];
+                
+                // Update texture selectors
+                updateTextureSelectors();
+            }
+        }
+    }
+
+    // Add these new functions for texture handling
+    let currentTexture = null;
+    let textureImage = new Image();
+    let modelTextures = {};  // Store texture assignments for each model
+    let availableTextures = [];  // Store list of available textures
+
+    // Function to scan the textures directory
+    async function scanTexturesDirectory() {
+        try {
+            const response = await fetch('./textures/');
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const links = doc.querySelectorAll('a');
+            
+            availableTextures = Array.from(links)
+                .map(link => link.href)
+                .filter(href => href.match(/\.(jpg|jpeg|png|gif)$/i))
+                .map(href => href.split('/').pop());
+
+            // Update texture selectors
+            updateTextureSelectors();
+        } catch (error) {
+            console.error('Error scanning textures directory:', error);
+        }
+    }
+
+    // Function to update all texture selectors
+    function updateTextureSelectors() {
+        const container = document.getElementById('texture-selectors-container');
+        container.innerHTML = ''; // Clear existing content
+
+        // Create texture selector for each loaded model
+        obj_names.forEach((modelName, index) => {
+            const modelDiv = document.createElement('div');
+            modelDiv.className = 'model-texture-selector';
+            modelDiv.style.marginBottom = '10px';
+
+            const modelLabel = document.createElement('strong');
+            modelLabel.textContent = modelName.replace('.json', '');
+            modelDiv.appendChild(modelLabel);
+
+            const select = document.createElement('select');
+            select.id = `texture-selector-${index}`;
+            select.style.width = '100%';
+            select.style.marginTop = '5px';
+            select.onchange = () => updateModelTexture(index, select.value);
+
+            // Add default "None" option
+            const noneOption = document.createElement('option');
+            noneOption.value = '';
+            noneOption.textContent = 'None';
+            select.appendChild(noneOption);
+
+            // Add options for each available texture
+            availableTextures.forEach(texture => {
+                const option = document.createElement('option');
+                option.value = texture;
+                option.textContent = texture;
+                select.appendChild(option);
+            });
+
+            modelDiv.appendChild(select);
+            container.appendChild(modelDiv);
+        });
+    }
+
+    function updateModelTexture(modelIndex, texturePath) {
+        if (!texturePath) {
+            delete modelTextures[modelIndex];
+            return;
+        }
+
+        const textureImage = new Image();
+        textureImage.onload = function() {
+            const texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);  // Flip the image's y axis
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textureImage);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+            gl.generateMipmap(gl.TEXTURE_2D);
+            
+            modelTextures[modelIndex] = texture;
+        };
+        textureImage.src = "./textures/" + texturePath;
+    }
+
+    // Call scanTexturesDirectory when the page loads
+    window.addEventListener('load', scanTexturesDirectory);
+
+    function updateTextureScale() {
+        const scaleU = parseFloat(document.getElementById("texture-scale-u").value);
+        const scaleV = parseFloat(document.getElementById("texture-scale-v").value);
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureScale"), scaleU, scaleV);
+    }
+
+    function updateTextureOffset() {
+        const offsetU = parseFloat(document.getElementById("texture-offset-u").value);
+        const offsetV = parseFloat(document.getElementById("texture-offset-v").value);
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureOffset"), offsetU, offsetV);
+    }
+
+    function updateTextureBlend(mode) {
+        const blendFactor = parseFloat(document.getElementById("texture-blend-factor").value);
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "textureBlendMode"), 
+            document.getElementById("texture-blend").value === "multiply" ? 1 :
+            document.getElementById("texture-blend").value === "add" ? 2 :
+            document.getElementById("texture-blend").value === "blend" ? 3 : 0);
+        gl.uniform1f(gl.getUniformLocation(shaderProgram, "textureBlendFactor"), blendFactor);
+    }
+
+    // Function to update the texture model selector
+    function updateTextureModelSelector() {
+        const selector = document.getElementById("texture-model-selector");
+        selector.innerHTML = ""; // Clear existing options
+        
+        // Add options for each loaded model
+        obj_names.forEach((modelName, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = modelName.replace(".json", "");
+            selector.appendChild(option);
+        });
+    }
+
+    // Function to handle texture file selection
+    function handleTextureFileSelect(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const modelIndex = parseInt(document.getElementById("texture-model-selector").value);
+        if (modelIndex < 0 || !obj_vec[modelIndex].VertexTextureCoordBuffer) {
+            alert("Selected model does not support textures");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const image = new Image();
+            image.onload = function() {
+                const texture = gl.createTexture();
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);  // Flip the image's y axis
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+                gl.generateMipmap(gl.TEXTURE_2D);
+                
+                modelTextures[modelIndex] = texture;
+
+                // Update current texture display
+                document.getElementById("current-texture").textContent = `Current texture: ${file.name}`;
+            };
+            image.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Update model selector when models are added/removed
     function handleModelSelection(checkbox) {
         if (checkbox.checked) {
             addSelectedModel(checkbox.value);
@@ -915,9 +1642,20 @@
                 // Update object selector
                 var selector = document.getElementById("object_selector");
                 selector.remove(index);
+
+                // Remove texture assignment
+                delete modelTextures[index];
             }
         }
+        // Update texture model selector
+        updateTextureModelSelector();
     }
+
+    // Call updateTextureModelSelector when the page loads
+    window.addEventListener('load', function() {
+        webGLStart();
+        updateTextureModelSelector();
+    });
 </script>
 </head>
 
@@ -925,7 +1663,8 @@
     <audio style="position: absolute; right: 4%; bottom: 30%; z-index: 2;" id="myAudio"></audio>
 
     <div class="main-container">
-        <div class="control-panel left-panel">
+        <div class="left-panel">
+            <button class="panel-toggle" onclick="togglePanel('left')">&larr;</button>
             <div class="control-group">
                 <strong for="shading">Shading Mode:</strong>
                 <div style="margin-left: 10px;">
@@ -933,6 +1672,9 @@
                         <option value="0">Flat Shading</option>
                         <option value="1" selected>Gouraud Shading</option>
                         <option value="2">Phong Shading</option>
+                        <option value="3">Toon Shading</option>
+                        <option value="4">Blinn-Phong Shading</option>
+                        <option value="5">PBR Shading</option>
                     </select>
                 </div>
             </div>
@@ -1005,7 +1747,8 @@
             <canvas id="ICG-canvas" width="1060" height="500"></canvas>
         </div>
 
-        <div class="control-panel right-panel">
+        <div class="right-panel">
+            <button class="panel-toggle" onclick="togglePanel('right')">&rarr;</button>
             <div class="control-group">
                 <strong>Model Selection</strong>
                 <div style="margin-left: 10px;">
@@ -1086,6 +1829,7 @@
     </div>
 
     <div class="bottom-container">
+        <button class="bottom-toggle" onclick="togglePanel('bottom')">&uarr;</button>
         <div class="bottom-scroll">
             <div class="bottom-panel">
                 <div>
@@ -1128,6 +1872,124 @@
                 </div>
 
                 <div>
+                    <strong>RGB Light Controls</strong>
+                    <div class="rgb-light-controls">
+                        <div class="light-color-section">
+                            <strong>Light 0 Color</strong>
+                            <table>
+                                <tr>
+                                    <td>R: <input style="max-width: 70%; vertical-align: middle;" id="0_lR" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(0)"></td>
+                                </tr>
+                                <tr>
+                                    <td>G: <input style="max-width: 70%; vertical-align: middle;" id="0_lG" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(0)"></td>
+                                </tr>
+                                <tr>
+                                    <td>B: <input style="max-width: 70%; vertical-align: middle;" id="0_lB" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(0)"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="light-color-section">
+                            <strong>Light 1 Color</strong>
+                            <table>
+                                <tr>
+                                    <td>R: <input style="max-width: 70%; vertical-align: middle;" id="1_lR" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(1)"></td>
+                                </tr>
+                                <tr>
+                                    <td>G: <input style="max-width: 70%; vertical-align: middle;" id="1_lG" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(1)"></td>
+                                </tr>
+                                <tr>
+                                    <td>B: <input style="max-width: 70%; vertical-align: middle;" id="1_lB" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(1)"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="light-effects-section">
+                            <strong>Preset Colors</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+                                <button onclick="setLightPreset(0, 1.0, 0.0, 0.0)" style="background: #ff0000; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                                <button onclick="setLightPreset(0, 0.0, 1.0, 0.0)" style="background: #00ff00; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                                <button onclick="setLightPreset(0, 0.0, 0.0, 1.0)" style="background: #0000ff; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                                <button onclick="setLightPreset(0, 1.0, 1.0, 0.0)" style="background: #ffff00; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                                <button onclick="setLightPreset(0, 1.0, 0.0, 1.0)" style="background: #ff00ff; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                                <button onclick="setLightPreset(0, 0.0, 1.0, 1.0)" style="background: #00ffff; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                                <button onclick="setLightPreset(0, 1.0, 1.0, 1.0)" style="background: #ffffff; width: 25px; height: 25px; border: none; cursor: pointer;"></button>
+                            </div>
+                        </div>
+                        <div class="light-effects-section">
+                            <strong>Light Effects</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+                                <button onclick="toggleColorCycle()" style="padding: 5px 10px; background: linear-gradient(90deg, red, yellow, green, cyan, blue, magenta); color: white; border: none; cursor: pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.5);">
+                                    Color Cycle
+                                </button>
+                                <button onclick="mixLights()" style="padding: 5px 10px; background: linear-gradient(90deg, #ff0000, #00ff00); color: white; border: none; cursor: pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.5);">
+                                    Mix Lights
+                                </button>
+                                <button onclick="setLightPreset(0, 1.0, 1.0, 1.0); setLightPreset(1, 1.0, 1.0, 1.0);" style="padding: 5px 10px; background: #ffffff; color: #000000; border: none; cursor: pointer;">
+                                    Reset Colors
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <strong>Texture Controls</strong>
+                    <div class="texture-controls">
+                        <div id="texture-selectors-container">
+                            <!-- Texture selectors will be dynamically added here -->
+                        </div>
+                        <div class="texture-settings">
+                            <table>
+                                <tr>
+                                    <td>Scale U: <input style="max-width: 70%; vertical-align: middle;" id="texture-scale-u" type="range" value="1.0" min="0.1" max="5.0" step="0.1" oninput="updateTextureScale()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Scale V: <input style="max-width: 70%; vertical-align: middle;" id="texture-scale-v" type="range" value="1.0" min="0.1" max="5.0" step="0.1" oninput="updateTextureScale()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Offset U: <input style="max-width: 70%; vertical-align: middle;" id="texture-offset-u" type="range" value="0.0" min="-1.0" max="1.0" step="0.1" oninput="updateTextureOffset()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Offset V: <input style="max-width: 70%; vertical-align: middle;" id="texture-offset-v" type="range" value="0.0" min="-1.0" max="1.0" step="0.1" oninput="updateTextureOffset()"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="texture-blend">
+                            <strong>Blend Mode</strong>
+                            <select id="texture-blend" onchange="updateTextureBlend(this.value)" style="width: 100%; margin: 5px 0;">
+                                <option value="replace">Replace</option>
+                                <option value="multiply">Multiply</option>
+                                <option value="add">Add</option>
+                                <option value="blend">Blend</option>
+                            </select>
+                            <div style="margin-top: 5px;">
+                                Blend Factor: <input style="max-width: 70%; vertical-align: middle;" id="texture-blend-factor" type="range" value="1.0" min="0.0" max="1.0" step="0.1" oninput="updateTextureBlend()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <strong>Texture Import</strong>
+                    <div class="texture-import-controls">
+                        <div style="margin-bottom: 10px;">
+                            <strong>Selected Model:</strong>
+                            <select id="texture-model-selector" style="width: 100%; margin-top: 5px;">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <button onclick="document.getElementById('texture-file-input').click()" style="width: 100%; padding: 8px; background: #86c3fe; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                Choose Texture File
+                            </button>
+                            <input type="file" id="texture-file-input" accept=".jpg,.jpeg,.png,.gif" style="display: none;" onchange="handleTextureFileSelect(this)">
+                        </div>
+                        <div id="current-texture" style="margin-top: 10px; font-size: 0.9em;">
+                            No texture selected
+                        </div>
+                    </div>
+                </div>
+
+                <div>
                     <strong>Clipping Planes</strong>
                     <div class="clipping-controls">
                         <div style="margin-right: 20px;">
@@ -1163,5 +2025,52 @@
             </div>
         </div>
     </div>
+
+    <script>
+    function togglePanel(panel) {
+        if (panel === 'left') {
+            const leftPanel = document.querySelector('.left-panel');
+            const button = leftPanel.querySelector('.panel-toggle');
+            leftPanel.classList.toggle('collapsed');
+            button.innerHTML = leftPanel.classList.contains('collapsed') ? '&rarr;' : '&larr;';
+            
+            // Adjust canvas size
+            const canvas = document.getElementById('ICG-canvas');
+            if (leftPanel.classList.contains('collapsed')) {
+                canvas.style.width = parseInt(getComputedStyle(canvas).width) + 190 + 'px';
+            } else {
+                canvas.style.width = parseInt(getComputedStyle(canvas).width) - 190 + 'px';
+            }
+        }
+        else if (panel === 'right') {
+            const rightPanel = document.querySelector('.right-panel');
+            const button = rightPanel.querySelector('.panel-toggle');
+            rightPanel.classList.toggle('collapsed');
+            button.innerHTML = rightPanel.classList.contains('collapsed') ? '&larr;' : '&rarr;';
+            
+            // Adjust canvas size
+            const canvas = document.getElementById('ICG-canvas');
+            if (rightPanel.classList.contains('collapsed')) {
+                canvas.style.width = parseInt(getComputedStyle(canvas).width) + 190 + 'px';
+            } else {
+                canvas.style.width = parseInt(getComputedStyle(canvas).width) - 190 + 'px';
+            }
+        }
+        else if (panel === 'bottom') {
+            const bottomPanel = document.querySelector('.bottom-container');
+            const button = bottomPanel.querySelector('.bottom-toggle');
+            bottomPanel.classList.toggle('collapsed');
+            button.innerHTML = bottomPanel.classList.contains('collapsed') ? '&uarr;' : '&darr;';
+        }
+
+        // Update WebGL canvas size
+        if (panel === 'left' || panel === 'right') {
+            const canvas = document.getElementById('ICG-canvas');
+            gl.viewportWidth = canvas.width = canvas.offsetWidth;
+            gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+        }
+    }
+    </script>
 </body>
 </html>
