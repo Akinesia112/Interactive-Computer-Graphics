@@ -136,33 +136,46 @@
         position: absolute;
         width: 24px;
         height: 60px;
-        background-color: #86c3fe;
+        background-color: #86c3fe;  /* Default blue color */
         border: none;
-        color: white;
+        color: #86c3fe;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
         z-index: 1001;
-        transition: all 0.3s ease-in-out;
+        border-radius: 0 4px 4px 0;
+        box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+        left: 320px;
+        top: 10px;
+        transition: background-color 0.3s ease;
     }
 
-    .left-panel .panel-toggle {
-        right: -24px;
-        border-radius: 0 5px 5px 0;
+    .panel-toggle:hover {
+        background-color: #aaa0f8;  /* Purple color on hover */
     }
 
-    .right-panel .panel-toggle {
-        left: -24px;
-        border-radius: 5px 0 0 5px;
+    /* Remove redundant color states and keep consistent colors */
+    .panel-toggle.clicked,
+    .left-panel-container.hidden .panel-toggle,
+    .panel-toggle.hidden {
+        background-color: #86c3fe;  /* Keep blue as the base color */
+    }
+
+    .left-panel {
+        transition: transform 0.3s ease;
+    }
+
+    .left-panel.hidden {
+        transform: translateX(-320px);
     }
 
     .bottom-toggle {
         position: absolute;
         height: 24px;
         width: 60px;
-        background-color: #86c3fe;
+        background-color: #86c3fe;  /* Default blue color */
         border: none;
         color: white;
         cursor: pointer;
@@ -178,7 +191,7 @@
     }
 
     .panel-toggle:hover, .bottom-toggle:hover {
-        background-color: #aaa0f8;
+        background-color: #aaa0f8;  /* Purple color on hover */
     }
 
     .bottom-scroll {
@@ -442,6 +455,399 @@
         margin-bottom: 10px;
         padding-right: 5px;
     }
+
+    /* Add new styles for the range control container */
+    .range-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        max-width: 280px; /* Limit maximum width */
+        margin-bottom: 5px;
+    }
+
+    .range-container span {
+        min-width: 20px;
+        flex-shrink: 0;
+    }
+
+    .range-container .min-max {
+        min-width: 25px;
+        font-size: 0.8em;
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+    .range-container input[type="range"] {
+        width: 120px;
+        min-width: 80px;
+        max-width: 120px;
+        flex: 1;
+    }
+
+    .range-container input[type="number"] {
+        width: 50px;
+        flex-shrink: 0;
+        background: #f5f5f5;
+        border: 1px solid #86c3fe;
+        border-radius: 4px;
+        color: #aaa0f8;
+        padding: 2px 4px;
+    }
+
+    /* Update left panel width */
+    .left-panel {
+        width: 300px;
+        min-width: 300px;
+        overflow-x: hidden;
+    }
+
+    /* Update table container styles */
+    .table-container {
+        width: 100%;
+        max-width: 280px;
+        overflow-x: hidden;
+    }
+
+    /* Add container for range inputs to enable horizontal scrolling */
+    .left-panel .range-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        min-width: 400px;  /* Ensure minimum width to fit all elements */
+        padding-right: 10px;
+        overflow-x: auto;  /* Enable horizontal scroll for range containers */
+    }
+
+    .left-panel .range-container input[type="range"] {
+        min-width: 150px;
+        max-width: 200px;
+        flex: 1;
+    }
+
+    .left-panel .range-container input[type="number"] {
+        width: 65px;
+        flex-shrink: 0;  /* Prevent number input from shrinking */
+    }
+
+    .left-panel .range-container span {
+        min-width: 25px;
+        flex-shrink: 0;  /* Prevent labels from shrinking */
+    }
+
+    .left-panel .range-container .min-max {
+        min-width: 30px;
+        text-align: center;
+        flex-shrink: 0;  /* Prevent min-max values from shrinking */
+    }
+
+    /* Add container for tables to enable horizontal scroll */
+    .left-panel .table-container {
+        overflow-x: auto;  /* Enable horizontal scroll for tables */
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .left-panel table {
+        min-width: 400px;  /* Ensure minimum width to fit all elements */
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .left-panel td {
+        padding: 2px;
+        white-space: nowrap;  /* Prevent text wrapping */
+    }
+
+    /* Ensure control groups don't get cut off */
+    .left-panel .control-group {
+        min-width: 400px;  /* Match table min-width */
+        overflow-x: auto;  /* Enable horizontal scroll for control groups */
+    }
+
+    .left-panel.hidden {
+        transform: translateX(-320px);
+    }
+
+    .panel-toggle.hidden {
+        left: 0;
+    }
+
+    .left-panel .range-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding-right: 10px;
+        overflow-x: auto;  /* 允許內容水平滾動 */
+    }
+
+    .left-panel .range-container input[type="range"] {
+        min-width: 150px;
+        max-width: 200px;
+        flex: 1;
+    }
+
+    .left-panel .range-container input[type="number"] {
+        width: 65px;
+        flex-shrink: 0;  /* Prevent number input from shrinking */
+    }
+
+    .left-panel .range-container span {
+        min-width: 25px;
+        flex-shrink: 0;  /* Prevent labels from shrinking */
+    }
+
+    .left-panel .range-container .min-max {
+        min-width: 30px;
+        text-align: center;
+        flex-shrink: 0;  /* Prevent min-max values from shrinking */
+    }
+
+    /* Ensure table doesn't shrink content */
+    .left-panel table {
+        min-width: 400px;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .left-panel td {
+        padding: 2px;
+        white-space: nowrap;  /* Prevent wrapping */
+    }
+
+    /* Container for the table to enable horizontal scroll */
+    .left-panel .table-container {
+        overflow-x: auto;  /* 允許表格水平滾動 */
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .right-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 320px;
+        height: 100vh;
+        background-color: #f0f0f0;
+        padding: 10px 10px 10px 34px; /* Add left padding for the toggle button */
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: auto;
+        z-index: 1000;
+        transition: transform 0.3s ease;
+    }
+    
+    /* Toggle button for right panel */
+    .right-panel-toggle {
+        position: absolute;
+        left: -24;  /* Changed from -24px to 0 */
+        transform: translateY(-50%);
+        width: 24px;
+        height: 60px;
+        background-color: #86c3fe;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 1001;
+        border-radius: 4px 0 0 -4px;
+        box-shadow: -2px 0 4px rgba(0,0,0,0.1);
+        right: 350px;
+        top: 10px;
+    }
+    
+    .right-panel-toggle:hover {
+        background-color: #aaa0f8;
+    }
+    
+    .right-panel.collapsed {
+        transform: translateX(320px);
+    }
+
+    .right-panel .range-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 400px;  /* Increased to ensure all elements fit */
+        margin-bottom: 5px;
+        padding-right: 10px;
+        white-space: nowrap;  /* Prevent wrapping */
+        justify-content: flex-start;  /* 新增：確保內容靠左對齊 */
+    }
+
+    .right-panel .range-container input[type="range"] {
+        min-width: 150px;
+        max-width: 200px;
+        flex: 1;
+    }
+
+    .right-panel .range-container input[type="number"] {
+        width: 65px;
+        flex-shrink: 0;  /* Prevent number input from shrinking */
+    }
+
+    .right-panel .range-container span {
+        min-width: 25px;
+        flex-shrink: 0;  /* Prevent labels from shrinking */
+    }
+
+    .right-panel .range-container .min-max {
+        min-width: 30px;
+        text-align: center;
+        flex-shrink: 0;  /* Prevent min-max values from shrinking */
+    }
+
+    /* Ensure table doesn't shrink content */
+    .right-panel table {
+        min-width: 400px;
+        width: 100%;
+        table-layout: fixed;
+        margin-left: 0;  /* 新增：確保表格靠左對齊 */
+    }
+
+    .right-panel td {
+        padding: 2px;
+        white-space: nowrap;
+        text-align: left;  /* 新增：確保單元格內容靠左對齊 */
+    }
+
+    /* Container for the table to enable horizontal scroll */
+    .right-panel .table-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    /* Style for the left panel collapse button */
+    .left-panel-collapse-btn {
+        position: fixed;
+        left: 320px; /* Position it at the edge of the left panel */
+        top: 10px;
+        z-index: 1001; /* Ensure it's above the panel */
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-left: none;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 0 4px 4px 0;
+        box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+    }
+
+    .left-panel-collapse-btn:hover {
+        background-color: #e0e0e0;
+    }
+
+    /* Adjust left panel collapse animation */
+    .left-panel {
+        transition: transform 0.3s ease;
+    }
+
+    .left-panel.collapsed {
+        transform: translateX(-320px);
+    }
+
+    .left-panel-collapse-btn.collapsed {
+        left: 0;
+    }
+
+    .left-panel-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transition: transform 0.3s ease;
+    }
+
+    .left-panel-container.hidden {
+        transform: translateX(-320px);
+    }
+
+    .panel-toggle {
+        position: absolute;
+        width: 24px;
+        height: 60px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-left: none;
+        color: #333;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 1001;
+        border-radius: 0 4px 4px 0;
+        box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+        left: 320px;
+        top: 10px;
+    }
+
+    .panel-toggle:hover {
+        background-color: #e0e0e0;
+    }
+
+    .right-panel-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        transition: transform 0.3s ease;
+    }
+
+    .right-panel-container.hidden {
+        transform: translateX(320px);
+    }
+
+    .right-panel-container .panel-toggle {
+        position: absolute;
+        width: 24px;
+        height: 60px;
+        background-color: #86c3fe;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 1001;
+        border-radius: 4px 0 0 4px;
+        box-shadow: -2px 0 4px rgba(0,0,0,0.1);
+        left: -24px;
+        top: 10px;
+    }
+
+    .right-panel-container .panel-toggle:hover {
+        background-color: #aaa0f8;
+    }
+
+    .right-panel {
+        width: 320px;
+        height: 100vh;
+        background-color: #f0f0f0;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: auto;
+        z-index: 1000;
+        transition: transform 0.3s ease;
+    }
+
+    .right-panel.hidden {
+        transform: translateX(320px);
+    }
+
+    /* 新增：確保右側面板中的所有元素靠左對齊 */
+    .right-panel .control-group,
+    .right-panel strong,
+    .right-panel div {
+        text-align: left;
+        margin-left: 0;
+    }
 </style>
 <!-- 
     TODO HERE: 
@@ -462,12 +868,11 @@
     varying vec3 lightKdKsCDs[3];
     varying float Ka_val;
     varying vec3 ambient_lightColor;
-    varying vec2 vTextureCoord;  // Add varying for texture coordinates
+    varying vec4 fragcolor;
+    varying vec2 vTextureCoord;
 
-    varying vec4 fragcolor;   // for gouraud shading
-
-    uniform sampler2D uSampler;  // Add texture sampler
-    uniform int useTexture;      // Flag to determine if texture should be used
+    uniform sampler2D uSampler;
+    uniform int useTexture;
     uniform int textureBlendMode;
     uniform float textureBlendFactor;
 
@@ -479,34 +884,76 @@
         else return vec3(0.1, 0.1, 0.1);
     }
 
-    // Function to blend colors based on blend mode
-    vec3 blendColors(vec3 baseColor, vec3 textureColor) {
-        if (textureBlendMode == 1) {  // Multiply
-            return mix(baseColor, baseColor * textureColor, textureBlendFactor);
-        } else if (textureBlendMode == 2) {  // Add
-            return mix(baseColor, min(baseColor + textureColor, vec3(1.0)), textureBlendFactor);
-        } else if (textureBlendMode == 3) {  // Blend
-            return mix(baseColor, textureColor, textureBlendFactor);
+    // Function to blend texture with vertex color
+    vec3 blendWithTexture(vec3 baseColor) {
+        if (useTexture == 0) return baseColor;
+        
+        vec4 texColor = texture2D(uSampler, vTextureCoord);
+        
+        if (textureBlendMode == 0) {  // Replace
+            return texColor.rgb;
         }
-        return textureColor;  // Replace (default)
+        else if (textureBlendMode == 1) {  // Multiply
+            return baseColor * texColor.rgb;
+        }
+        else if (textureBlendMode == 2) {  // Add
+            return min(baseColor + texColor.rgb, vec3(1.0));
+        }
+        else if (textureBlendMode == 3) {  // Blend
+            return mix(baseColor, texColor.rgb, textureBlendFactor);
+        }
+        
+        return baseColor;
+    }
+
+    // PBR functions
+    const float PI = 3.14159265359;
+    
+    float DistributionGGX(vec3 N, vec3 H, float roughness) {
+        float a = roughness * roughness;
+        float a2 = a * a;
+        float NdotH = max(dot(N, H), 0.0);
+        float NdotH2 = NdotH * NdotH;
+
+        float nom = a2;
+        float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+        denom = PI * denom * denom;
+
+        return nom / max(denom, 0.0001);
+    }
+
+    float GeometrySchlickGGX(float NdotV, float roughness) {
+        float r = (roughness + 1.0);
+        float k = (r * r) / 8.0;
+
+        float nom = NdotV;
+        float denom = NdotV * (1.0 - k) + k;
+
+        return nom / denom;
+    }
+
+    float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness) {
+        float NdotV = max(dot(N, V), 0.0);
+        float NdotL = max(dot(N, L), 0.0);
+        float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+        float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+
+        return ggx1 * ggx2;
+    }
+
+    vec3 fresnelSchlick(float cosTheta, vec3 F0) {
+        return F0 + (1.0 - F0) * pow(max(1.0 - cosTheta, 0.0), 5.0);
     }
 
     void main(void) {
-        vec3 baseColor = vertexColor;
+        vec3 finalColor;
         
-        // Apply texture if enabled
-        if (useTexture == 1) {
-            vec4 texColor = texture2D(uSampler, vTextureCoord);
-            baseColor = blendColors(baseColor, texColor.rgb);
-        }
-
         if(shading_mode[0] == 0.0) {  // Flat shading
-            // Calculate face normal using derivatives
             vec3 dx = dFdx(fragPosition);
             vec3 dy = dFdy(fragPosition);
             vec3 N = normalize(cross(dx, dy));
             
-            vec3 finalColor = vec3(0.0, 0.0, 0.0);
+            finalColor = vec3(0.0, 0.0, 0.0);
             vec3 V = -normalize(fragPosition);
             vec3 ambient = Ka_val * ambient_lightColor;
 
@@ -524,15 +971,14 @@
                     specular = ks * lightColors[i] * pow(max(dot(N, H), 0.0), shininess);
                 }
 
-                finalColor += baseColor * (ambient + diffuse) + specular;
+                finalColor += vertexColor * (ambient + diffuse) + specular;
             }
-            gl_FragColor = vec4(finalColor, 1.0);
         }
         else if(shading_mode[0] == 1.0) {  // Gouraud shading
-            gl_FragColor = fragcolor;
+            finalColor = fragcolor.rgb;
         }
         else if(shading_mode[0] == 2.0) {  // Phong shading
-            vec3 finalColor = vec3(0.0, 0.0, 0.0);
+            finalColor = vec3(0.0, 0.0, 0.0);
             vec3 N = normalize(fragNormal);
             vec3 V = -normalize(fragPosition);
             vec3 ambient = Ka_val * ambient_lightColor;
@@ -551,12 +997,11 @@
                     specular = ks * lightColors[i] * pow(max(dot(N, H), 0.0), shininess);
                 }
 
-                finalColor += baseColor * (ambient + diffuse) + specular;
+                finalColor += vertexColor * (ambient + diffuse) + specular;
             }
-            gl_FragColor = vec4(finalColor, 1.0);
         }
         else if(shading_mode[0] == 3.0) {  // Toon shading
-            vec3 finalColor = vec3(0.0, 0.0, 0.0);
+            finalColor = vec3(0.0, 0.0, 0.0);
             vec3 N = normalize(fragNormal);
             vec3 V = -normalize(fragPosition);
             vec3 ambient = Ka_val * ambient_lightColor;
@@ -571,7 +1016,7 @@
                 
                 // Apply toon shading with ambient
                 vec3 diffuse = kd * lightColors[i] * toonLevel;
-                finalColor += baseColor * (ambient + diffuse);
+                finalColor += vertexColor * (ambient + diffuse);
             }
 
             // Add outline
@@ -579,11 +1024,9 @@
             if(edgeFactor < 0.3) {
                 finalColor = vec3(0.0, 0.0, 0.0);  // Black outline
             }
-
-            gl_FragColor = vec4(finalColor, 1.0);
         }
         else if(shading_mode[0] == 4.0) {  // Blinn-Phong shading
-            vec3 finalColor = vec3(0.0, 0.0, 0.0);
+            finalColor = vec3(0.0, 0.0, 0.0);
             vec3 N = normalize(fragNormal);
             vec3 V = -normalize(fragPosition);
             vec3 ambient = Ka_val * ambient_lightColor;
@@ -605,49 +1048,50 @@
                     specular = ks * lightColors[i] * spec;
                 }
 
-                finalColor += baseColor * (ambient + diffuse) + specular;
+                finalColor += vertexColor * (ambient + diffuse) + specular;
             }
-            gl_FragColor = vec4(finalColor, 1.0);
         }
         else if(shading_mode[0] == 5.0) {  // PBR shading
             vec3 N = normalize(fragNormal);
             vec3 V = normalize(-fragPosition);
 
-            // Enhanced PBR material properties
-            float metallic = 0.2;     // Further reduced metallic for more natural look
-            float roughness = 0.3;    // Lower roughness for stronger specular
-            vec3 albedo = baseColor * 1.2; // Brightened base color
+            // Enhanced PBR material properties with more realistic values
+            float metallic = 0.15;     // Increased metallic for more realistic metals
+            float baseRoughness = 0.12; // Reduced base roughness for smoother surfaces
+            // Dynamic roughness based on normal and view direction for more surface detail
+            float roughness = baseRoughness + 0.15 * (1.0 - abs(dot(N, V)));
+            vec3 albedo = vertexColor * 3.5; // Further brightened base color
             
-            // Increased base reflectance for more pronounced specular
-            vec3 F0 = vec3(0.16); 
+            // Enhanced base reflectance with stronger fresnel effect
+            vec3 F0 = vec3(0.35); // Increased base reflectance for more realistic materials
             F0 = mix(F0, albedo, metallic);
 
             // Reflectance equation
             vec3 Lo = vec3(0.0);
             
             for(int i = 0; i < 3; i++) {
-                // Enhanced per-light radiance calculation
                 vec3 L = normalize(lightLocations[i] - fragPosition);
                 vec3 H = normalize(V + L);
                 float distance = length(lightLocations[i] - fragPosition);
                 
-                // Improved attenuation with better distance falloff
+                // Improved attenuation with more realistic falloff
                 float constant = 1.0;
-                float linear = 0.07;
-                float quadratic = 0.017;
+                float linear = 0.035;    // Further reduced linear attenuation
+                float quadratic = 0.008;  // Further reduced quadratic attenuation
                 float attenuation = 1.0 / (constant + linear * distance + quadratic * distance * distance);
                 
-                // Significantly increased light intensity
-                vec3 radiance = lightColors[i] * attenuation * 5.0;
+                // Enhanced light intensity with warmer color temperature
+                vec3 radiance = lightColors[i] * attenuation * 12.0; // Significantly increased intensity
+                radiance *= vec3(1.2, 1.1, 1.0); // Warmer tint for more natural lighting
 
-                // Cook-Torrance BRDF with enhanced specular
+                // Enhanced Cook-Torrance BRDF with improved energy conservation
                 float NDF = DistributionGGX(N, H, roughness);
                 float G = GeometrySmith(N, V, L, roughness);
                 vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
                 vec3 numerator = NDF * G * F;
                 float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
-                vec3 specular = numerator / denominator * 1.5; // Enhanced specular intensity
+                vec3 specular = numerator / denominator * 2.5; // Increased specular intensity
 
                 vec3 kS = F;
                 vec3 kD = vec3(1.0) - kS;
@@ -657,47 +1101,57 @@
                 Lo += (kD * albedo / PI + specular) * radiance * NdotL;
             }
 
-            // Enhanced ambient lighting with improved IBL approximation
-            float ambientStrength = Ka_val * 3.0; // Further increased ambient strength
+            // Enhanced ambient lighting with improved color temperature
+            float ambientStrength = Ka_val * 7.0; // Further increased ambient intensity
             vec3 ambient = ambientStrength * ambient_lightColor * albedo;
+            ambient *= vec3(1.1, 1.05, 1.0); // Warm tint for ambient light
             
-            // Improved ambient occlusion with better normal-based shading
+            // Improved ambient occlusion with more subtle gradients
             float upDot = max(dot(N, vec3(0.0, 1.0, 0.0)), 0.0);
-            float ao = mix(0.9, 1.0, upDot);
+            float ao = mix(0.97, 1.0, upDot); // Increased minimum AO for brighter shadows
             ambient *= ao;
 
-            // Add rim lighting for enhanced edge definition
+            // Enhanced rim lighting with more natural falloff
             float rimDot = 1.0 - max(dot(N, V), 0.0);
-            float rimAmount = pow(rimDot, 3.0);
-            vec3 rim = rimAmount * ambient_lightColor * 0.5;
+            float rimAmount = pow(rimDot, 2.2); // Adjusted power for more natural rim effect
+            vec3 rim = rimAmount * ambient_lightColor * 1.2; // Increased rim intensity
+            rim *= vec3(1.2, 1.1, 1.0); // Warm tint for rim light
 
             vec3 finalColor = ambient + Lo + rim;
 
-            // Enhanced HDR tonemapping (Modified ACES-like)
-            const float a = 2.8;   // Increased contrast
-            const float b = 0.05;  // Increased toe region
-            const float c = 2.43;
-            const float d = 0.59;
-            const float e = 0.14;
+            // Enhanced HDR tonemapping with improved highlight handling
+            const float a = 3.5;   // Increased contrast
+            const float b = 0.08;  // Increased toe region
+            const float c = 2.1;   // Adjusted shoulder region for smoother highlights
+            const float d = 0.45;  // Adjusted for better midtone balance
+            const float e = 0.10;  // Adjusted for improved shadow detail
             finalColor = (finalColor * (a * finalColor + b)) / (finalColor * (c * finalColor + d) + e);
 
-            // Adjusted gamma for extra brightness
-            finalColor = pow(finalColor, vec3(1.0/1.8)); // Reduced gamma for more brightness
+            // Adjusted gamma for enhanced brightness while maintaining detail
+            finalColor = pow(finalColor, vec3(1.0/1.8)); // Slightly adjusted gamma
 
-            // Enhanced color saturation and vibrance
+            // Enhanced color saturation and vibrance with improved color balance
             float luminance = dot(finalColor, vec3(0.2126, 0.7152, 0.0722));
-            float saturationAmount = 1.4; // Increased saturation
+            float saturationAmount = 1.7; // Increased saturation for more vivid colors
             finalColor = mix(vec3(luminance), finalColor, saturationAmount);
 
-            // Add subtle color enhancement
-            vec3 colorBoost = vec3(1.1, 1.05, 1.0); // Slight warm tint
+            // Enhanced color boost with improved color temperature
+            vec3 colorBoost = vec3(1.25, 1.15, 1.05); // Enhanced warm tint
             finalColor *= colorBoost;
+
+            // Improved highlight recovery
+            float highlightThreshold = 0.95;
+            vec3 highlights = smoothstep(highlightThreshold, 1.0, finalColor);
+            finalColor = mix(finalColor, highlights * 1.2, 0.3); // Boost highlights
 
             // Ensure we don't exceed maximum brightness while preserving color
             finalColor = clamp(finalColor, 0.0, 1.0);
-
-            gl_FragColor = vec4(finalColor, 1.0);
         }
+
+        // Apply texture blending after shading calculation
+        finalColor = blendWithTexture(finalColor);
+        
+        gl_FragColor = vec4(finalColor, 1.0);
     }
 </script>
 
@@ -724,15 +1178,12 @@
     uniform mat4 uPMatrix;
     uniform float Ka;
     uniform vec3 ambient_color;
-    uniform vec2 textureScale;
-    uniform vec2 textureOffset;
-    
     uniform int mode;
     uniform float volume;
-    
-    // Add clipping plane uniforms
     uniform vec3 clipMin;
     uniform vec3 clipMax;
+    uniform vec2 textureScale;    // Add texture scale uniform
+    uniform vec2 textureOffset;   // Add texture offset uniform
 
     varying vec3 vertexColor;
     varying vec3 fragPosition;
@@ -743,19 +1194,18 @@
     varying vec3 lightKdKsCDs[3];
     varying float Ka_val;
     varying vec3 ambient_lightColor;
-    varying vec2 vTextureCoord;  // Add varying for texture coordinates
-
-    varying vec4 fragcolor; // used by Gouraud shading
+    varying vec4 fragcolor;
+    varying vec2 vTextureCoord;   // Add varying for texture coordinates
 
     void main(void) {
-        // Pass texture coordinates to fragment shader with scaling and offset
-        vTextureCoord = (aTextureCoord * textureScale) + textureOffset;
-
         // Pass through values needed for all shading modes
         Ka_val = Ka;
         ambient_lightColor = ambient_color;
         vertexColor = aFrontColor;
         shading_mode = vec3(float(mode));
+
+        // Transform texture coordinates
+        vTextureCoord = (aTextureCoord * textureScale) + textureOffset;
 
         // Apply volume scaling
         vec3 vertex_copy = aVertexPosition;
@@ -767,7 +1217,6 @@
         if (vertex_copy.x < clipMin.x || vertex_copy.x > clipMax.x ||
             vertex_copy.y < clipMin.y || vertex_copy.y > clipMax.y ||
             vertex_copy.z < clipMin.z || vertex_copy.z > clipMax.z) {
-            // Move vertex far away to clip it
             gl_Position = vec4(0.0, 0.0, 2.0, 0.0);
             return;
         }
@@ -1004,13 +1453,13 @@
         audio.play();
         gl.uniform1f( gl.getUniformLocation(shaderProgram, "volume"), 0.);
 
-        // Initialize texture uniforms
-        gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 0);
-        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureScale"), 1.0, 1.0);
-        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureOffset"), 0.0, 0.0);
-        gl.uniform1i(gl.getUniformLocation(shaderProgram, "textureBlendMode"), 0);
-        gl.uniform1f(gl.getUniformLocation(shaderProgram, "textureBlendFactor"), 1.0);
-        gl.uniform1i(gl.getUniformLocation(shaderProgram, "uSampler"), 0);
+        // Add texture uniforms
+        shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+        shaderProgram.useTextureUniform = gl.getUniformLocation(shaderProgram, "useTexture");
+        shaderProgram.textureBlendModeUniform = gl.getUniformLocation(shaderProgram, "textureBlendMode");
+        shaderProgram.textureBlendFactorUniform = gl.getUniformLocation(shaderProgram, "textureBlendFactor");
+        shaderProgram.textureScaleUniform = gl.getUniformLocation(shaderProgram, "textureScale");
+        shaderProgram.textureOffsetUniform = gl.getUniformLocation(shaderProgram, "textureOffset");
     }
 
     function setMatrixUniforms(obj) {
@@ -1048,6 +1497,17 @@
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(objData.vertexTextureCoords), gl.STATIC_DRAW);
             obj.VertexTextureCoordBuffer.itemSize = 2;
             obj.VertexTextureCoordBuffer.numItems = objData.vertexTextureCoords.length / 2;
+        } else {
+            // Generate default texture coordinates if not provided
+            const defaultTexCoords = [];
+            for (let i = 0; i < objData.vertexPositions.length / 3; i++) {
+                defaultTexCoords.push(0.0, 0.0);  // Default UV coordinates
+            }
+            obj.VertexTextureCoordBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, obj.VertexTextureCoordBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(defaultTexCoords), gl.STATIC_DRAW);
+            obj.VertexTextureCoordBuffer.itemSize = 2;
+            obj.VertexTextureCoordBuffer.numItems = defaultTexCoords.length / 2;
         }
     }
 
@@ -1072,6 +1532,7 @@
 
         for(var i=0 ; i<obj_vec.length ; ++i)
         {
+
             if (obj_vec[i].VertexPositionBuffer == null ||  obj_vec[i].VertexNormalBuffer == null || obj_vec[i].VertexFrontColorBuffer == null) {
                 continue;
             }
@@ -1085,6 +1546,7 @@
             obj_vec[i].shear();
             setMatrixUniforms(obj_vec[i]);
 
+
             gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, obj_vec[i].VertexPositionBuffer.itemSize,  gl.FLOAT, false, 0, 0);
 
@@ -1094,19 +1556,17 @@
             gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexNormalBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, obj_vec[i].VertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            // Bind texture coordinates if available
-            if (obj_vec[i].VertexTextureCoordBuffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexTextureCoordBuffer);
-                gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, obj_vec[i].VertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-            }
+            gl.bindBuffer(gl.ARRAY_BUFFER, obj_vec[i].VertexTextureCoordBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, obj_vec[i].VertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            // Bind texture if available for this model
+            // Set texture uniforms
             if (modelTextures[i]) {
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, modelTextures[i]);
-                gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 1);
+                gl.uniform1i(shaderProgram.samplerUniform, 0);
+                gl.uniform1i(shaderProgram.useTextureUniform, 1);
             } else {
-                gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 0);
+                gl.uniform1i(shaderProgram.useTextureUniform, 0);
             }
 
             gl.uniform3fv(gl.getUniformLocation(shaderProgram, "lightLoc"), light_locations);
@@ -1276,16 +1736,28 @@
     }
 
     function update_scale_all(value) {
+        document.getElementById("0_scaleAll").value = value;
         document.getElementById("0_scaleX").value = value;
         document.getElementById("0_scaleY").value = value;
         document.getElementById("0_scaleZ").value = value;
+        // Update number inputs
+        document.getElementById("0_scaleAll_num").value = value;
+        document.getElementById("0_scaleX_num").value = value;
+        document.getElementById("0_scaleY_num").value = value;
+        document.getElementById("0_scaleZ_num").value = value;
         obj_vec[0].scale_vec = vec3.create([value, value, value]);
     }
 
     function update_shear_all(value) {
+        document.getElementById("0_shearAll").value = value;
         document.getElementById("0_shearX").value = value;
         document.getElementById("0_shearY").value = value;
         document.getElementById("0_shearZ").value = value;
+        // Update number inputs
+        document.getElementById("0_shearAll_num").value = value;
+        document.getElementById("0_shearX_num").value = value;
+        document.getElementById("0_shearY_num").value = value;
+        document.getElementById("0_shearZ_num").value = value;
         obj_vec[0].shear_vec = vec3.create([value, value, value]);
     }
 
@@ -1407,7 +1879,7 @@
                 scale = 5;
                 break;
             case "Fighter.json":
-                scale = 50;
+                scale = 70;
                 break;
             case "Easter.json":
                 scale = 5;
@@ -1469,6 +1941,7 @@
     let textureImage = new Image();
     let modelTextures = {};  // Store texture assignments for each model
     let availableTextures = [];  // Store list of available textures
+    let sharedTextureCache = {};  // Cache for shared textures
 
     // Function to scan the textures directory
     async function scanTexturesDirectory() {
@@ -1510,7 +1983,11 @@
             select.id = `texture-selector-${index}`;
             select.style.width = '100%';
             select.style.marginTop = '5px';
-            select.onchange = () => updateModelTexture(index, select.value);
+            select.onchange = () => {
+                updateModelTexture(index, select.value);
+                // Update texture controls to reflect the current texture
+                updateTextureControlsForModel(index);
+            };
 
             // Add default "None" option
             const noneOption = document.createElement('option');
@@ -1531,9 +2008,133 @@
         });
     }
 
+    // Function to update texture controls for specific model
+    function updateTextureControlsForModel(modelIndex) {
+        // Get the current texture settings for this model
+        const textureSettings = modelTextureSettings[modelIndex] || {
+            scaleU: 1.0,
+            scaleV: 1.0,
+            offsetU: 0.0,
+            offsetV: 0.0,
+            blendMode: 'replace',
+            blendFactor: 1.0
+        };
+
+        // Update the texture control UI
+        document.getElementById('texture-scale-u').value = textureSettings.scaleU;
+        document.getElementById('texture-scale-v').value = textureSettings.scaleV;
+        document.getElementById('texture-offset-u').value = textureSettings.offsetU;
+        document.getElementById('texture-offset-v').value = textureSettings.offsetV;
+        document.getElementById('texture-blend').value = textureSettings.blendMode;
+        document.getElementById('texture-blend-factor').value = textureSettings.blendFactor;
+
+        // Update the shader uniforms
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureScale"), 
+            textureSettings.scaleU, textureSettings.scaleV);
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureOffset"), 
+            textureSettings.offsetU, textureSettings.offsetV);
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "textureBlendMode"), 
+            textureSettings.blendMode === "multiply" ? 1 :
+            textureSettings.blendMode === "add" ? 2 :
+            textureSettings.blendMode === "blend" ? 3 : 0);
+        gl.uniform1f(gl.getUniformLocation(shaderProgram, "textureBlendFactor"), 
+            textureSettings.blendFactor);
+    }
+
+    // Store texture settings for each model
+    let modelTextureSettings = {};
+
+    function updateTextureScale() {
+        const modelIndex = document.getElementById("texture-model-selector").value;
+        const scaleU = parseFloat(document.getElementById("texture-scale-u").value);
+        const scaleV = parseFloat(document.getElementById("texture-scale-v").value);
+        
+        // Store the settings for this model
+        modelTextureSettings[modelIndex] = modelTextureSettings[modelIndex] || {};
+        modelTextureSettings[modelIndex].scaleU = scaleU;
+        modelTextureSettings[modelIndex].scaleV = scaleV;
+        
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureScale"), scaleU, scaleV);
+    }
+
+    function updateTextureOffset() {
+        const modelIndex = document.getElementById("texture-model-selector").value;
+        const offsetU = parseFloat(document.getElementById("texture-offset-u").value);
+        const offsetV = parseFloat(document.getElementById("texture-offset-v").value);
+        
+        // Store the settings for this model
+        modelTextureSettings[modelIndex] = modelTextureSettings[modelIndex] || {};
+        modelTextureSettings[modelIndex].offsetU = offsetU;
+        modelTextureSettings[modelIndex].offsetV = offsetV;
+        
+        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureOffset"), offsetU, offsetV);
+    }
+
+    function updateTextureBlend() {
+        const modelIndex = document.getElementById("texture-model-selector").value;
+        const blendMode = document.getElementById("texture-blend").value;
+        const blendFactor = parseFloat(document.getElementById("texture-blend-factor").value);
+        
+        // Store the settings for this model
+        modelTextureSettings[modelIndex] = modelTextureSettings[modelIndex] || {};
+        modelTextureSettings[modelIndex].blendMode = blendMode;
+        modelTextureSettings[modelIndex].blendFactor = blendFactor;
+        
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "textureBlendMode"), 
+            blendMode === "multiply" ? 1 :
+            blendMode === "add" ? 2 :
+            blendMode === "blend" ? 3 : 0);
+        gl.uniform1f(gl.getUniformLocation(shaderProgram, "textureBlendFactor"), blendFactor);
+    }
+
+    // Update texture model selector when models are added/removed
+    function handleModelSelection(checkbox) {
+        if (checkbox.checked) {
+            addSelectedModel(checkbox.value);
+        } else {
+            // Remove model
+            var index = obj_names.indexOf(checkbox.value);
+            if (index > -1) {
+                obj_names.splice(index, 1);
+                obj_vec.splice(index, 1);
+                
+                // Update remaining objects' indices
+                for (var i = index; i < obj_vec.length; i++) {
+                    obj_vec[i].id = i;
+                }
+                
+                // Update object selector
+                var selector = document.getElementById("object_selector");
+                selector.remove(index);
+
+                // Remove texture assignment and settings
+                delete modelTextures[index];
+                delete modelTextureSettings[index];
+            }
+        }
+        // Update texture selectors
+        updateTextureSelectors();
+        // Update texture model selector
+        updateTextureModelSelector();
+    }
+
+    // Modify the texture model selector change handler
+    document.getElementById("texture-model-selector").onchange = function() {
+        const modelIndex = this.value;
+        updateTextureControlsForModel(modelIndex);
+    };
+
     function updateModelTexture(modelIndex, texturePath) {
         if (!texturePath) {
-            delete modelTextures[modelIndex];
+            modelTextures[modelIndex] = null;
+            gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 0);
+            return;
+        }
+
+        // Check if texture is already in cache
+        if (sharedTextureCache[texturePath]) {
+            modelTextures[modelIndex] = sharedTextureCache[texturePath];
+            gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 1);
             return;
         }
 
@@ -1541,31 +2142,63 @@
         textureImage.onload = function() {
             const texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);  // Flip the image's y axis
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textureImage);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
             gl.generateMipmap(gl.TEXTURE_2D);
             
+            // Store in cache and assign to model
+            sharedTextureCache[texturePath] = texture;
             modelTextures[modelIndex] = texture;
+            gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 1);
         };
         textureImage.src = "./textures/" + texturePath;
     }
 
+    function handleTextureFileSelect(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Check if file is in textures directory
+        if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            alert("Please select a valid image file (jpg, jpeg, png, or gif)");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const image = new Image();
+            image.onload = function() {
+                const texture = gl.createTexture();
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+                gl.generateMipmap(gl.TEXTURE_2D);
+                
+                // Store in cache and update model textures
+                const texturePath = file.name;
+                sharedTextureCache[texturePath] = texture;
+                const modelIndex = document.getElementById("texture-model-selector").value;
+                modelTextures[modelIndex] = texture;
+                gl.uniform1i(gl.getUniformLocation(shaderProgram, "useTexture"), 1);
+
+                // Update current texture display
+                document.getElementById("current-texture").textContent = `Current texture: ${file.name}`;
+                
+                // Add to available textures if not already present
+                if (!availableTextures.includes(texturePath)) {
+                    availableTextures.push(texturePath);
+                    updateTextureSelectors();
+                }
+            };
+            image.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
     // Call scanTexturesDirectory when the page loads
     window.addEventListener('load', scanTexturesDirectory);
-
-    function updateTextureScale() {
-        const scaleU = parseFloat(document.getElementById("texture-scale-u").value);
-        const scaleV = parseFloat(document.getElementById("texture-scale-v").value);
-        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureScale"), scaleU, scaleV);
-    }
-
-    function updateTextureOffset() {
-        const offsetU = parseFloat(document.getElementById("texture-offset-u").value);
-        const offsetV = parseFloat(document.getElementById("texture-offset-v").value);
-        gl.uniform2f(gl.getUniformLocation(shaderProgram, "textureOffset"), offsetU, offsetV);
-    }
 
     function updateTextureBlend(mode) {
         const blendFactor = parseFloat(document.getElementById("texture-blend-factor").value);
@@ -1590,72 +2223,77 @@
         });
     }
 
-    // Function to handle texture file selection
-    function handleTextureFileSelect(input) {
-        const file = input.files[0];
-        if (!file) return;
-
-        const modelIndex = parseInt(document.getElementById("texture-model-selector").value);
-        if (modelIndex < 0 || !obj_vec[modelIndex].VertexTextureCoordBuffer) {
-            alert("Selected model does not support textures");
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const image = new Image();
-            image.onload = function() {
-                const texture = gl.createTexture();
-                gl.bindTexture(gl.TEXTURE_2D, texture);
-                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);  // Flip the image's y axis
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
-                gl.generateMipmap(gl.TEXTURE_2D);
-                
-                modelTextures[modelIndex] = texture;
-
-                // Update current texture display
-                document.getElementById("current-texture").textContent = `Current texture: ${file.name}`;
-            };
-            image.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // Update model selector when models are added/removed
-    function handleModelSelection(checkbox) {
-        if (checkbox.checked) {
-            addSelectedModel(checkbox.value);
-        } else {
-            // Remove model
-            var index = obj_names.indexOf(checkbox.value);
-            if (index > -1) {
-                obj_names.splice(index, 1);
-                obj_vec.splice(index, 1);
-                
-                // Update remaining objects' indices
-                for (var i = index; i < obj_vec.length; i++) {
-                    obj_vec[i].id = i;
-                }
-                
-                // Update object selector
-                var selector = document.getElementById("object_selector");
-                selector.remove(index);
-
-                // Remove texture assignment
-                delete modelTextures[index];
-            }
-        }
-        // Update texture model selector
-        updateTextureModelSelector();
-    }
-
     // Call updateTextureModelSelector when the page loads
     window.addEventListener('load', function() {
         webGLStart();
         updateTextureModelSelector();
     });
+
+    // Add new function to update range value from number input
+    function updateRangeFromNumber(inputId, rangeId) {
+        const numberInput = document.getElementById(inputId);
+        const rangeInput = document.getElementById(rangeId);
+        const value = parseFloat(numberInput.value);
+        
+        if (!isNaN(value)) {
+            const min = parseFloat(rangeInput.min);
+            const max = parseFloat(rangeInput.max);
+            
+            if (value >= min && value <= max) {
+                rangeInput.value = value;
+                // Trigger the range input's oninput event
+                const event = new Event('input');
+                rangeInput.dispatchEvent(event);
+            } else {
+                numberInput.value = rangeInput.value;
+            }
+        }
+    }
+
+    // Add new function to update number input from range
+    function updateNumberFromRange(rangeId, numberId) {
+        const rangeInput = document.getElementById(rangeId);
+        const numberInput = document.getElementById(numberId);
+        numberInput.value = rangeInput.value;
+    }
+
+    function toggleLeftPanel() {
+        const panel = document.querySelector('.left-panel');
+        const btn = document.querySelector('.left-panel-collapse-btn');
+        const icon = document.getElementById('left-panel-collapse-icon');
+        
+        panel.classList.toggle('collapsed');
+        btn.classList.toggle('collapsed');
+        
+        // Update the arrow icon
+        if (panel.classList.contains('collapsed')) {
+            icon.textContent = '▶';
+        } else {
+            icon.textContent = '◀';
+        }
+    }
+
+    function toggleRightPanel() {
+        const panel = document.querySelector('.right-panel');
+        const btn = panel.querySelector('.right-panel-toggle');
+        
+        panel.classList.toggle('collapsed');
+        
+        // Update the arrow icon
+        if (panel.classList.contains('collapsed')) {
+            btn.textContent = '▶';
+        } else {
+            btn.textContent = '◀';
+        }
+        
+        // Update WebGL canvas size if needed
+        const canvas = document.getElementById('ICG-canvas');
+        if (canvas) {
+            gl.viewportWidth = canvas.width = canvas.offsetWidth;
+            gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+        }
+    }
 </script>
 </head>
 
@@ -1663,8 +2301,10 @@
     <audio style="position: absolute; right: 4%; bottom: 30%; z-index: 2;" id="myAudio"></audio>
 
     <div class="main-container">
-        <div class="left-panel">
+        <div class="left-panel-container">
             <button class="panel-toggle" onclick="togglePanel('left')">&larr;</button>
+            <div class="left-panel">
+                <div class="control-section">
             <div class="control-group">
                 <strong for="shading">Shading Mode:</strong>
                 <div style="margin-left: 10px;">
@@ -1683,72 +2323,223 @@
                 <strong>Object</strong>
                 <div style="margin-left: 10px;">
                     <strong>Translation</strong>
-                    <table>
-                        <tr>
-                            <td>X: <input style="max-width: 60%; vertical-align: middle;" id="0_transX" type="range" autocomplete="off" value="0." max="50." min="-50." oninput="update_trans(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="0_transY" type="range" autocomplete="off" value="0." max="50." min="-50." oninput="update_trans(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="0_transZ" type="range" autocomplete="off" value="-15." max="0." min="-120." oninput="update_trans(0)"></td>
-                        </tr>
-                    </table>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>X:</span>
+                                        <span class="min-max">-50</span>
+                                        <input id="0_transX" type="range" autocomplete="off" value="0" max="50" min="-50" 
+                                               oninput="update_trans(0); updateNumberFromRange('0_transX', '0_transX_num')">
+                                        <span class="min-max">50</span>
+                                        <input type="number" id="0_transX_num" value="0" min="-50" max="50" step="1"
+                                               oninput="updateRangeFromNumber('0_transX_num', '0_transX')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Y:</span>
+                                        <span class="min-max">-50</span>
+                                        <input id="0_transY" type="range" autocomplete="off" value="0" max="50" min="-50" 
+                                               oninput="update_trans(0); updateNumberFromRange('0_transY', '0_transY_num')">
+                                        <span class="min-max">50</span>
+                                        <input type="number" id="0_transY_num" value="0" min="-50" max="50" step="1"
+                                               oninput="updateRangeFromNumber('0_transY_num', '0_transY')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Z:</span>
+                                        <span class="min-max">-120</span>
+                                        <input id="0_transZ" type="range" autocomplete="off" value="-15" max="0" min="-120" 
+                                               oninput="update_trans(0); updateNumberFromRange('0_transZ', '0_transZ_num')">
+                                        <span class="min-max">0</span>
+                                        <input type="number" id="0_transZ_num" value="-15" min="-120" max="0" step="1"
+                                               oninput="updateRangeFromNumber('0_transZ_num', '0_transZ')">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     </br>
                     <strong>Rotation</strong>
-                    <table>
-                        <tr>
-                            <td>X: <input style="max-width: 60%; vertical-align: middle;" id="0_rotateX" type="range" autocomplete="off" value="0." max="180." min="-180." oninput="update_rotate(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="0_rotateY" type="range" autocomplete="off" value="0." max="180." min="-180." oninput="update_rotate(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="0_rotateZ" type="range" autocomplete="off" value="0." max="180." min="-180." oninput="update_rotate(0)"></td>
-                        </tr>
-                    </table>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>X:</span>
+                                        <span class="min-max">-180</span>
+                                        <input id="0_rotateX" type="range" autocomplete="off" value="0" max="180" min="-180" 
+                                               oninput="update_rotate(0); updateNumberFromRange('0_rotateX', '0_rotateX_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_rotateX_num" value="0" min="-180" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_rotateX_num', '0_rotateX')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Y:</span>
+                                        <span class="min-max">-180</span>
+                                        <input id="0_rotateY" type="range" autocomplete="off" value="0" max="180" min="-180" 
+                                               oninput="update_rotate(0); updateNumberFromRange('0_rotateY', '0_rotateY_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_rotateY_num" value="0" min="-180" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_rotateY_num', '0_rotateY')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Z:</span>
+                                        <span class="min-max">-180</span>
+                                        <input id="0_rotateZ" type="range" autocomplete="off" value="0" max="180" min="-180" 
+                                               oninput="update_rotate(0); updateNumberFromRange('0_rotateZ', '0_rotateZ_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_rotateZ_num" value="0" min="-180" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_rotateZ_num', '0_rotateZ')">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     </br>
                     <strong>Scale</strong>
-                    <table>
-                        <tr>
-                            <td>All: <input style="max-width: 60%; vertical-align: middle;" id="0_scaleAll" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="update_scale_all(this.value)"></td>
-                        </tr>
-                        <tr>
-                            <td>X: <input style="max-width: 60%; vertical-align: middle;" id="0_scaleX" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="update_scale(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="0_scaleY" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="update_scale(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="0_scaleZ" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="update_scale(0)"></td>
-                        </tr>
-                    </table>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>All:</span>
+                                        <span class="min-max">0.1</span>
+                                        <input id="0_scaleAll" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                               oninput="update_scale_all(this.value); updateNumberFromRange('0_scaleAll', '0_scaleAll_num')">
+                                        <span class="min-max">5.0</span>
+                                        <input type="number" id="0_scaleAll_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                               oninput="updateRangeFromNumber('0_scaleAll_num', '0_scaleAll')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>X:</span>
+                                        <span class="min-max">0.1</span>
+                                        <input id="0_scaleX" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                               oninput="update_scale(0); updateNumberFromRange('0_scaleX', '0_scaleX_num')">
+                                        <span class="min-max">5.0</span>
+                                        <input type="number" id="0_scaleX_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                               oninput="updateRangeFromNumber('0_scaleX_num', '0_scaleX')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Y:</span>
+                                        <span class="min-max">0.1</span>
+                                        <input id="0_scaleY" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                               oninput="update_scale(0); updateNumberFromRange('0_scaleY', '0_scaleY_num')">
+                                        <span class="min-max">5.0</span>
+                                        <input type="number" id="0_scaleY_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                               oninput="updateRangeFromNumber('0_scaleY_num', '0_scaleY')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Z:</span>
+                                        <span class="min-max">0.1</span>
+                                        <input id="0_scaleZ" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                               oninput="update_scale(0); updateNumberFromRange('0_scaleZ', '0_scaleZ_num')">
+                                        <span class="min-max">5.0</span>
+                                        <input type="number" id="0_scaleZ_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                               oninput="updateRangeFromNumber('0_scaleZ_num', '0_scaleZ')">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     </br>
                     <strong>Shear</strong>
-                    <table>
-                        <tr>
-                            <td>All: <input style="max-width: 60%; vertical-align: middle;" id="0_shearAll" type="range" autocomplete="off" value="90" max="180" min="0" oninput="update_shear_all(this.value)"></td>
-                        </tr>
-                        <tr>
-                            <td>X: <input style="max-width: 60%; vertical-align: middle;" id="0_shearX" type="range" autocomplete="off" value="90" max="180" min="0" oninput="update_shear(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="0_shearY" type="range" autocomplete="off" value="90" max="180" min="0" oninput="update_shear(0)"></td>
-                        </tr>
-                        <tr>
-                            <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="0_shearZ" type="range" autocomplete="off" value="90" max="180" min="0" oninput="update_shear(0)"></td>
-                        </tr>
-                    </table>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>All:</span>
+                                        <span class="min-max">0</span>
+                                        <input id="0_shearAll" type="range" autocomplete="off" value="90" max="180" min="0" 
+                                               oninput="update_shear_all(this.value); updateNumberFromRange('0_shearAll', '0_shearAll_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_shearAll_num" value="90" min="0" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_shearAll_num', '0_shearAll')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>X:</span>
+                                        <span class="min-max">0</span>
+                                        <input id="0_shearX" type="range" autocomplete="off" value="90" max="180" min="0" 
+                                               oninput="update_shear(0); updateNumberFromRange('0_shearX', '0_shearX_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_shearX_num" value="90" min="0" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_shearX_num', '0_shearX')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Y:</span>
+                                        <span class="min-max">0</span>
+                                        <input id="0_shearY" type="range" autocomplete="off" value="90" max="180" min="0" 
+                                               oninput="update_shear(0); updateNumberFromRange('0_shearY', '0_shearY_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_shearY_num" value="90" min="0" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_shearY_num', '0_shearY')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="range-container">
+                                        <span>Z:</span>
+                                        <span class="min-max">0</span>
+                                        <input id="0_shearZ" type="range" autocomplete="off" value="90" max="180" min="0" 
+                                               oninput="update_shear(0); updateNumberFromRange('0_shearZ', '0_shearZ_num')">
+                                        <span class="min-max">180</span>
+                                        <input type="number" id="0_shearZ_num" value="90" min="0" max="180" step="1"
+                                               oninput="updateRangeFromNumber('0_shearZ_num', '0_shearZ')">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="canvas-container">
-            <canvas id="ICG-canvas" width="1060" height="500"></canvas>
+            <canvas id="ICG-canvas" style="width: 1060px; height: 500px;" width="1060" height="500">
+            </canvas>
         </div>
 
         <div class="right-panel">
-            <button class="panel-toggle" onclick="togglePanel('right')">&rarr;</button>
+            <button class="right-panel-toggle" onclick="toggleRightPanel('right')">&rarr;</button>
             <div class="control-group">
                 <strong>Model Selection</strong>
                 <div style="margin-left: 10px;">
@@ -1785,43 +2576,139 @@
                     </table>
                     <div id="object_controls">
                         <strong>Translation</strong>
-                        <table>
-                            <tr>
-                                <td>X: <input style="max-width: 60%; vertical-align: middle;" id="selected_transX" type="range" autocomplete="off" value="0." max="50." min="-50." oninput="updateSelectedObject('trans')"></td>
-                            </tr>
-                            <tr>
-                                <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="selected_transY" type="range" autocomplete="off" value="0." max="50." min="-50." oninput="updateSelectedObject('trans')"></td>
-                            </tr>
-                            <tr>
-                                <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="selected_transZ" type="range" autocomplete="off" value="-15." max="0." min="-120." oninput="updateSelectedObject('trans')"></td>
-                            </tr>
-                        </table>
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>X:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="selected_transX" type="range" autocomplete="off" value="0" max="50" min="-50" 
+                                                   oninput="updateSelectedObject('trans'); updateNumberFromRange('selected_transX', 'selected_transX_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="selected_transX_num" value="0" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('selected_transX_num', 'selected_transX')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Y:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="selected_transY" type="range" autocomplete="off" value="0" max="50" min="-50" 
+                                                   oninput="updateSelectedObject('trans'); updateNumberFromRange('selected_transY', 'selected_transY_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="selected_transY_num" value="0" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('selected_transY_num', 'selected_transY')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Z:</span>
+                                            <span class="min-max">-120</span>
+                                            <input id="selected_transZ" type="range" autocomplete="off" value="-15" max="0" min="-120" 
+                                                   oninput="updateSelectedObject('trans'); updateNumberFromRange('selected_transZ', 'selected_transZ_num')">
+                                            <span class="min-max">0</span>
+                                            <input type="number" id="selected_transZ_num" value="-15" min="-120" max="0" step="1"
+                                                   oninput="updateRangeFromNumber('selected_transZ_num', 'selected_transZ')">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         </br>
                         <strong>Rotation</strong>
-                        <table>
-                            <tr>
-                                <td>X: <input style="max-width: 60%; vertical-align: middle;" id="selected_rotateX" type="range" autocomplete="off" value="0." max="180." min="-180." oninput="updateSelectedObject('rotate')"></td>
-                            </tr>
-                            <tr>
-                                <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="selected_rotateY" type="range" autocomplete="off" value="0." max="180." min="-180." oninput="updateSelectedObject('rotate')"></td>
-                            </tr>
-                            <tr>
-                                <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="selected_rotateZ" type="range" autocomplete="off" value="0." max="180." min="-180." oninput="updateSelectedObject('rotate')"></td>
-                            </tr>
-                        </table>
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>X:</span>
+                                            <span class="min-max">-180</span>
+                                            <input id="selected_rotateX" type="range" autocomplete="off" value="0" max="180" min="-180" 
+                                                   oninput="updateSelectedObject('rotate'); updateNumberFromRange('selected_rotateX', 'selected_rotateX_num')">
+                                            <span class="min-max">180</span>
+                                            <input type="number" id="selected_rotateX_num" value="0" min="-180" max="180" step="1"
+                                                   oninput="updateRangeFromNumber('selected_rotateX_num', 'selected_rotateX')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Y:</span>
+                                            <span class="min-max">-180</span>
+                                            <input id="selected_rotateY" type="range" autocomplete="off" value="0" max="180" min="-180" 
+                                                   oninput="updateSelectedObject('rotate'); updateNumberFromRange('selected_rotateY', 'selected_rotateY_num')">
+                                            <span class="min-max">180</span>
+                                            <input type="number" id="selected_rotateY_num" value="0" min="-180" max="180" step="1"
+                                                   oninput="updateRangeFromNumber('selected_rotateY_num', 'selected_rotateY')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Z:</span>
+                                            <span class="min-max">-180</span>
+                                            <input id="selected_rotateZ" type="range" autocomplete="off" value="0" max="180" min="-180" 
+                                                   oninput="updateSelectedObject('rotate'); updateNumberFromRange('selected_rotateZ', 'selected_rotateZ_num')">
+                                            <span class="min-max">180</span>
+                                            <input type="number" id="selected_rotateZ_num" value="0" min="-180" max="180" step="1"
+                                                   oninput="updateRangeFromNumber('selected_rotateZ_num', 'selected_rotateZ')">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         </br>
                         <strong>Scale</strong>
-                        <table>
-                            <tr>
-                                <td>X: <input style="max-width: 60%; vertical-align: middle;" id="selected_scaleX" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="updateSelectedObject('scale')"></td>
-                            </tr>
-                            <tr>
-                                <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="selected_scaleY" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="updateSelectedObject('scale')"></td>
-                            </tr>
-                            <tr>
-                                <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="selected_scaleZ" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" oninput="updateSelectedObject('scale')"></td>
-                            </tr>
-                        </table>
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>X:</span>
+                                            <span class="min-max">0.1</span>
+                                            <input id="selected_scaleX" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                                   oninput="updateSelectedObject('scale'); updateNumberFromRange('selected_scaleX', 'selected_scaleX_num')">
+                                            <span class="min-max">5.0</span>
+                                            <input type="number" id="selected_scaleX_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('selected_scaleX_num', 'selected_scaleX')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Y:</span>
+                                            <span class="min-max">0.1</span>
+                                            <input id="selected_scaleY" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                                   oninput="updateSelectedObject('scale'); updateNumberFromRange('selected_scaleY', 'selected_scaleY_num')">
+                                            <span class="min-max">5.0</span>
+                                            <input type="number" id="selected_scaleY_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('selected_scaleY_num', 'selected_scaleY')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Z:</span>
+                                            <span class="min-max">0.1</span>
+                                            <input id="selected_scaleZ" type="range" autocomplete="off" value="0.2" max="5.0" min="0.1" step="0.1" 
+                                                   oninput="updateSelectedObject('scale'); updateNumberFromRange('selected_scaleZ', 'selected_scaleZ_num')">
+                                            <span class="min-max">5.0</span>
+                                            <input type="number" id="selected_scaleZ_num" value="0.2" min="0.1" max="5.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('selected_scaleZ_num', 'selected_scaleZ')">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1836,7 +2723,17 @@
                     <strong>Ambient Light</strong>
                     <table>
                         <tr>
-                            <td>Ka: <input style="max-width: 70%; vertical-align: middle;" id="am_ka" type="range" autocomplete="off" value="0.1" max="1." min="0." step="0.05" oninput="update_ambient_light(0)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>Ka:</span>
+                                    <span class="min-max">0.0</span>
+                                    <input id="am_ka" type="range" autocomplete="off" value="0.1" max="1.0" min="0.0" step="0.05" 
+                                           oninput="update_ambient_light(0); updateNumberFromRange('am_ka', 'am_ka_num')">
+                                    <span class="min-max">1.0</span>
+                                    <input type="number" id="am_ka_num" value="0.1" min="0.0" max="1.0" step="0.05"
+                                           oninput="updateRangeFromNumber('am_ka_num', 'am_ka')">
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -1845,13 +2742,43 @@
                     <strong>Light 0</strong>
                     <table>
                         <tr>
-                            <td>X: <input style="max-width: 70%; vertical-align: middle;" id="0_llocX" type="range" autocomplete="off" value="0." max="20." min="-20." oninput="update_light_location(0)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>X:</span>
+                                    <span class="min-max">-20</span>
+                                    <input id="0_llocX" type="range" autocomplete="off" value="0" max="20" min="-20" 
+                                           oninput="update_light_location(0); updateNumberFromRange('0_llocX', '0_llocX_num')">
+                                    <span class="min-max">20</span>
+                                    <input type="number" id="0_llocX_num" value="0" min="-20" max="20" step="1"
+                                           oninput="updateRangeFromNumber('0_llocX_num', '0_llocX')">
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Y: <input style="max-width: 70%; vertical-align: middle;" id="0_llocY" type="range" autocomplete="off" value="5." max="20." min="-20." oninput="update_light_location(0)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>Y:</span>
+                                    <span class="min-max">-20</span>
+                                    <input id="0_llocY" type="range" autocomplete="off" value="5" max="20" min="-20" 
+                                           oninput="update_light_location(0); updateNumberFromRange('0_llocY', '0_llocY_num')">
+                                    <span class="min-max">20</span>
+                                    <input type="number" id="0_llocY_num" value="5" min="-20" max="20" step="1"
+                                           oninput="updateRangeFromNumber('0_llocY_num', '0_llocY')">
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Z: <input style="max-width: 70%; vertical-align: middle;" id="0_llocZ" type="range" autocomplete="off" value="-10." max="0." min="-75." oninput="update_light_location(0)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>Z:</span>
+                                    <span class="min-max">-75</span>
+                                    <input id="0_llocZ" type="range" autocomplete="off" value="-10" max="0" min="-75" 
+                                           oninput="update_light_location(0); updateNumberFromRange('0_llocZ', '0_llocZ_num')">
+                                    <span class="min-max">0</span>
+                                    <input type="number" id="0_llocZ_num" value="-10" min="-75" max="0" step="1"
+                                           oninput="updateRangeFromNumber('0_llocZ_num', '0_llocZ')">
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -1860,13 +2787,43 @@
                     <strong>Light 1</strong>
                     <table>
                         <tr>
-                            <td>X: <input style="max-width: 70%; vertical-align: middle;" id="1_llocX" type="range" autocomplete="off" value="-8.0" max="20." min="-20." oninput="update_light_location(1)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>X:</span>
+                                    <span class="min-max">-20</span>
+                                    <input id="1_llocX" type="range" autocomplete="off" value="-8.0" max="20" min="-20" 
+                                           oninput="update_light_location(1); updateNumberFromRange('1_llocX', '1_llocX_num')">
+                                    <span class="min-max">20</span>
+                                    <input type="number" id="1_llocX_num" value="-8.0" min="-20" max="20" step="1"
+                                           oninput="updateRangeFromNumber('1_llocX_num', '1_llocX')">
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Y: <input style="max-width: 70%; vertical-align: middle;" id="1_llocY" type="range" autocomplete="off" value="0.0" max="20." min="-20." oninput="update_light_location(1)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>Y:</span>
+                                    <span class="min-max">-20</span>
+                                    <input id="1_llocY" type="range" autocomplete="off" value="0.0" max="20" min="-20" 
+                                           oninput="update_light_location(1); updateNumberFromRange('1_llocY', '1_llocY_num')">
+                                    <span class="min-max">20</span>
+                                    <input type="number" id="1_llocY_num" value="0.0" min="-20" max="20" step="1"
+                                           oninput="updateRangeFromNumber('1_llocY_num', '1_llocY')">
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Z: <input style="max-width: 70%; vertical-align: middle;" id="1_llocZ" type="range" autocomplete="off" value="-12.0" max="20." min="-75." oninput="update_light_location(1)"></td>
+                            <td>
+                                <div class="range-container">
+                                    <span>Z:</span>
+                                    <span class="min-max">-75</span>
+                                    <input id="1_llocZ" type="range" autocomplete="off" value="-12.0" max="20" min="-75" 
+                                           oninput="update_light_location(1); updateNumberFromRange('1_llocZ', '1_llocZ_num')">
+                                    <span class="min-max">20</span>
+                                    <input type="number" id="1_llocZ_num" value="-12.0" min="-75" max="20" step="1"
+                                           oninput="updateRangeFromNumber('1_llocZ_num', '1_llocZ')">
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -1878,13 +2835,43 @@
                             <strong>Light 0 Color</strong>
                             <table>
                                 <tr>
-                                    <td>R: <input style="max-width: 70%; vertical-align: middle;" id="0_lR" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(0)"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>R:</span>
+                                            <span class="min-max">0.0</span>
+                                            <input id="0_lR" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" 
+                                                   oninput="update_light_color(0); updateNumberFromRange('0_lR', '0_lR_num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="0_lR_num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('0_lR_num', '0_lR')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>G: <input style="max-width: 70%; vertical-align: middle;" id="0_lG" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(0)"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>G:</span>
+                                            <span class="min-max">0.0</span>
+                                            <input id="0_lG" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" 
+                                                   oninput="update_light_color(0); updateNumberFromRange('0_lG', '0_lG_num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="0_lG_num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('0_lG_num', '0_lG')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>B: <input style="max-width: 70%; vertical-align: middle;" id="0_lB" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(0)"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>B:</span>
+                                            <span class="min-max">0.0</span>
+                                            <input id="0_lB" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" 
+                                                   oninput="update_light_color(0); updateNumberFromRange('0_lB', '0_lB_num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="0_lB_num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('0_lB_num', '0_lB')">
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -1892,16 +2879,49 @@
                             <strong>Light 1 Color</strong>
                             <table>
                                 <tr>
-                                    <td>R: <input style="max-width: 70%; vertical-align: middle;" id="1_lR" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(1)"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>R:</span>
+                                            <span class="min-max">0.0</span>
+                                            <input id="1_lR" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" 
+                                                   oninput="update_light_color(1); updateNumberFromRange('1_lR', '1_lR_num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="1_lR_num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('1_lR_num', '1_lR')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>G: <input style="max-width: 70%; vertical-align: middle;" id="1_lG" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(1)"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>G:</span>
+                                            <span class="min-max">0.0</span>
+                                            <input id="1_lG" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" 
+                                                   oninput="update_light_color(1); updateNumberFromRange('1_lG', '1_lG_num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="1_lG_num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('1_lG_num', '1_lG')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>B: <input style="max-width: 70%; vertical-align: middle;" id="1_lB" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" oninput="update_light_color(1)"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>B:</span>
+                                            <span class="min-max">0.0</span>
+                                            <input id="1_lB" type="range" autocomplete="off" value="1.0" max="1.0" min="0.0" step="0.1" 
+                                                   oninput="update_light_color(1); updateNumberFromRange('1_lB', '1_lB_num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="1_lB_num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('1_lB_num', '1_lB')">
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
+                    </div>
+                </div>
+
                         <div class="light-effects-section">
                             <strong>Preset Colors</strong>
                             <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
@@ -1928,9 +2948,6 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-
                 <div>
                     <strong>Texture Controls</strong>
                     <div class="texture-controls">
@@ -1940,16 +2957,56 @@
                         <div class="texture-settings">
                             <table>
                                 <tr>
-                                    <td>Scale U: <input style="max-width: 70%; vertical-align: middle;" id="texture-scale-u" type="range" value="1.0" min="0.1" max="5.0" step="0.1" oninput="updateTextureScale()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Scale U:</span>
+                                            <span class="min-max">0.1</span>
+                                            <input id="texture-scale-u" type="range" value="1.0" min="0.1" max="5.0" step="0.1" 
+                                                   oninput="updateTextureScale(); updateNumberFromRange('texture-scale-u', 'texture-scale-u-num')">
+                                            <span class="min-max">5.0</span>
+                                            <input type="number" id="texture-scale-u-num" value="1.0" min="0.1" max="5.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('texture-scale-u-num', 'texture-scale-u')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Scale V: <input style="max-width: 70%; vertical-align: middle;" id="texture-scale-v" type="range" value="1.0" min="0.1" max="5.0" step="0.1" oninput="updateTextureScale()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Scale V:</span>
+                                            <span class="min-max">0.1</span>
+                                            <input id="texture-scale-v" type="range" value="1.0" min="0.1" max="5.0" step="0.1" 
+                                                   oninput="updateTextureScale(); updateNumberFromRange('texture-scale-v', 'texture-scale-v-num')">
+                                            <span class="min-max">5.0</span>
+                                            <input type="number" id="texture-scale-v-num" value="1.0" min="0.1" max="5.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('texture-scale-v-num', 'texture-scale-v')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Offset U: <input style="max-width: 70%; vertical-align: middle;" id="texture-offset-u" type="range" value="0.0" min="-1.0" max="1.0" step="0.1" oninput="updateTextureOffset()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Offset U:</span>
+                                            <span class="min-max">-1.0</span>
+                                            <input id="texture-offset-u" type="range" value="0.0" min="-1.0" max="1.0" step="0.1" 
+                                                   oninput="updateTextureOffset(); updateNumberFromRange('texture-offset-u', 'texture-offset-u-num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="texture-offset-u-num" value="0.0" min="-1.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('texture-offset-u-num', 'texture-offset-u')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Offset V: <input style="max-width: 70%; vertical-align: middle;" id="texture-offset-v" type="range" value="0.0" min="-1.0" max="1.0" step="0.1" oninput="updateTextureOffset()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Offset V:</span>
+                                            <span class="min-max">-1.0</span>
+                                            <input id="texture-offset-v" type="range" value="0.0" min="-1.0" max="1.0" step="0.1" 
+                                                   oninput="updateTextureOffset(); updateNumberFromRange('texture-offset-v', 'texture-offset-v-num')">
+                                            <span class="min-max">1.0</span>
+                                            <input type="number" id="texture-offset-v-num" value="0.0" min="-1.0" max="1.0" step="0.1"
+                                                   oninput="updateRangeFromNumber('texture-offset-v-num', 'texture-offset-v')">
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -1962,7 +3019,15 @@
                                 <option value="blend">Blend</option>
                             </select>
                             <div style="margin-top: 5px;">
-                                Blend Factor: <input style="max-width: 70%; vertical-align: middle;" id="texture-blend-factor" type="range" value="1.0" min="0.0" max="1.0" step="0.1" oninput="updateTextureBlend()">
+                                <div class="range-container">
+                                    <span>Blend:</span>
+                                    <span class="min-max">0.0</span>
+                                    <input id="texture-blend-factor" type="range" value="1.0" min="0.0" max="1.0" step="0.1" 
+                                           oninput="updateTextureBlend(); updateNumberFromRange('texture-blend-factor', 'texture-blend-factor-num')">
+                                    <span class="min-max">1.0</span>
+                                    <input type="number" id="texture-blend-factor-num" value="1.0" min="0.0" max="1.0" step="0.1"
+                                           oninput="updateRangeFromNumber('texture-blend-factor-num', 'texture-blend-factor')">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1996,13 +3061,43 @@
                             <strong>Min Bounds</strong>
                             <table>
                                 <tr>
-                                    <td>X: <input style="max-width: 60%; vertical-align: middle;" id="clipMinX" type="range" autocomplete="off" value="-50" max="50" min="-50" step="1" oninput="updateClipping()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>X:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="clipMinX" type="range" autocomplete="off" value="-50" max="50" min="-50" step="1" 
+                                                   oninput="updateClipping(); updateNumberFromRange('clipMinX', 'clipMinX_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="clipMinX_num" value="-50" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('clipMinX_num', 'clipMinX')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="clipMinY" type="range" autocomplete="off" value="-50" max="50" min="-50" step="1" oninput="updateClipping()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Y:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="clipMinY" type="range" autocomplete="off" value="-50" max="50" min="-50" step="1" 
+                                                   oninput="updateClipping(); updateNumberFromRange('clipMinY', 'clipMinY_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="clipMinY_num" value="-50" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('clipMinY_num', 'clipMinY')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="clipMinZ" type="range" autocomplete="off" value="-50" max="50" min="-50" step="1" oninput="updateClipping()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Z:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="clipMinZ" type="range" autocomplete="off" value="-50" max="50" min="-50" step="1" 
+                                                   oninput="updateClipping(); updateNumberFromRange('clipMinZ', 'clipMinZ_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="clipMinZ_num" value="-50" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('clipMinZ_num', 'clipMinZ')">
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -2010,13 +3105,43 @@
                             <strong>Max Bounds</strong>
                             <table>
                                 <tr>
-                                    <td>X: <input style="max-width: 60%; vertical-align: middle;" id="clipMaxX" type="range" autocomplete="off" value="50" max="50" min="-50" step="1" oninput="updateClipping()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>X:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="clipMaxX" type="range" autocomplete="off" value="50" max="50" min="-50" step="1" 
+                                                   oninput="updateClipping(); updateNumberFromRange('clipMaxX', 'clipMaxX_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="clipMaxX_num" value="50" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('clipMaxX_num', 'clipMaxX')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Y: <input style="max-width: 60%; vertical-align: middle;" id="clipMaxY" type="range" autocomplete="off" value="50" max="50" min="-50" step="1" oninput="updateClipping()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Y:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="clipMaxY" type="range" autocomplete="off" value="50" max="50" min="-50" step="1" 
+                                                   oninput="updateClipping(); updateNumberFromRange('clipMaxY', 'clipMaxY_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="clipMaxY_num" value="50" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('clipMaxY_num', 'clipMaxY')">
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Z: <input style="max-width: 60%; vertical-align: middle;" id="clipMaxZ" type="range" autocomplete="off" value="50" max="50" min="-50" step="1" oninput="updateClipping()"></td>
+                                    <td>
+                                        <div class="range-container">
+                                            <span>Z:</span>
+                                            <span class="min-max">-50</span>
+                                            <input id="clipMaxZ" type="range" autocomplete="off" value="50" max="50" min="-50" step="1" 
+                                                   oninput="updateClipping(); updateNumberFromRange('clipMaxZ', 'clipMaxZ_num')">
+                                            <span class="min-max">50</span>
+                                            <input type="number" id="clipMaxZ_num" value="50" min="-50" max="50" step="1"
+                                                   oninput="updateRangeFromNumber('clipMaxZ_num', 'clipMaxZ')">
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -2029,31 +3154,23 @@
     <script>
     function togglePanel(panel) {
         if (panel === 'left') {
-            const leftPanel = document.querySelector('.left-panel');
-            const button = leftPanel.querySelector('.panel-toggle');
-            leftPanel.classList.toggle('collapsed');
-            button.innerHTML = leftPanel.classList.contains('collapsed') ? '&rarr;' : '&larr;';
-            
-            // Adjust canvas size
-            const canvas = document.getElementById('ICG-canvas');
-            if (leftPanel.classList.contains('collapsed')) {
-                canvas.style.width = parseInt(getComputedStyle(canvas).width) + 190 + 'px';
+            const container = document.querySelector('.left-panel-container');
+            const button = container.querySelector('.panel-toggle');
+            container.classList.toggle('hidden');
+            if (container.classList.contains('hidden')) {
+                button.innerHTML = '&rarr;';
             } else {
-                canvas.style.width = parseInt(getComputedStyle(canvas).width) - 190 + 'px';
+                button.innerHTML = '&larr;';
             }
         }
         else if (panel === 'right') {
-            const rightPanel = document.querySelector('.right-panel');
-            const button = rightPanel.querySelector('.panel-toggle');
-            rightPanel.classList.toggle('collapsed');
-            button.innerHTML = rightPanel.classList.contains('collapsed') ? '&larr;' : '&rarr;';
-            
-            // Adjust canvas size
-            const canvas = document.getElementById('ICG-canvas');
-            if (rightPanel.classList.contains('collapsed')) {
-                canvas.style.width = parseInt(getComputedStyle(canvas).width) + 190 + 'px';
+            const container = document.querySelector('.right-panel-container');
+            const button = container.querySelector('.panel-toggle');
+            container.classList.toggle('hidden');
+            if (container.classList.contains('hidden')) {
+                button.innerHTML = '&larr;';
             } else {
-                canvas.style.width = parseInt(getComputedStyle(canvas).width) - 190 + 'px';
+                button.innerHTML = '&rarr;';
             }
         }
         else if (panel === 'bottom') {
@@ -2071,6 +3188,45 @@
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         }
     }
+
+    function toggleLeftPanel() {
+        const panel = document.querySelector('.left-panel');
+        const btn = document.querySelector('.left-panel-collapse-btn');
+        const icon = document.getElementById('left-panel-collapse-icon');
+        
+        panel.classList.toggle('collapsed');
+        btn.classList.toggle('collapsed');
+        
+        // Update the arrow icon
+        if (panel.classList.contains('collapsed')) {
+            icon.textContent = '▶';
+        } else {
+            icon.textContent = '◀';
+        }
+    }
+
+    function toggleRightPanel() {
+        const panel = document.querySelector('.right-panel');
+        const btn = panel.querySelector('.right-panel-toggle');
+        
+        panel.classList.toggle('collapsed');
+        
+        // Update the arrow icon
+        if (panel.classList.contains('collapsed')) {
+            btn.textContent = '▶';
+        } else {
+            btn.textContent = '◀';
+        }
+        
+        // Update WebGL canvas size if needed
+        const canvas = document.getElementById('ICG-canvas');
+        if (canvas) {
+            gl.viewportWidth = canvas.width = canvas.offsetWidth;
+            gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+        }
+    }
     </script>
 </body>
+</html>
 </html>
