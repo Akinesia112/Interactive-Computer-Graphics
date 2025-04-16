@@ -851,7 +851,128 @@
         text-align: left;
         margin-left: 0;
     }
+
+    .auto-rotate-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .auto-rotate-control label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .rotation-speed-control {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 5px;
+    }
+
+    .rotation-speed-control input[type="range"] {
+        width: 100%;
+    }
 </style>
+
+<script type="text/javascript">
+    // Add rotation control variables
+    var autoRotateObjects = {};
+    var rotationSpeeds = {
+        x: 1.0,
+        y: 1.0,
+        z: 1.0
+    };
+
+    function toggleAutoRotate(objId) {
+        objId = parseInt(objId);
+        if (!autoRotateObjects[objId]) {
+            autoRotateObjects[objId] = {
+                active: true,
+                lastTime: Date.now(),
+                angles: {
+                    x: parseFloat(obj_vec[objId].rotate_vec[0]) || 0,
+                    y: parseFloat(obj_vec[objId].rotate_vec[1]) || 0,
+                    z: parseFloat(obj_vec[objId].rotate_vec[2]) || 0
+                }
+            };
+        } else {
+            autoRotateObjects[objId].active = !autoRotateObjects[objId].active;
+            if (autoRotateObjects[objId].active) {
+                autoRotateObjects[objId].lastTime = Date.now();
+                // Update initial angles from current rotation
+                autoRotateObjects[objId].angles = {
+                    x: parseFloat(obj_vec[objId].rotate_vec[0]) || 0,
+                    y: parseFloat(obj_vec[objId].rotate_vec[1]) || 0,
+                    z: parseFloat(obj_vec[objId].rotate_vec[2]) || 0
+                };
+            }
+        }
+        
+        // Enable rotation if any object has auto-rotation enabled
+        rotate_flag = Object.values(autoRotateObjects).some(obj => obj.active);
+        
+        // Update checkbox state
+        document.getElementById('selected_auto_rotate').checked = autoRotateObjects[objId]?.active || false;
+    }
+
+    function updateRotationSpeed(axis, value) {
+        rotationSpeeds[axis] = parseFloat(value);
+        document.getElementById('speed_' + axis + '_value').textContent = value;
+    }
+
+    function rotate_objects() {
+        const currentTime = Date.now();
+        
+        // Iterate through all objects in obj_vec
+        for (let i = 0; i < obj_vec.length; i++) {
+            if (!autoRotateObjects[i] || !autoRotateObjects[i].active) continue;
+            
+            const deltaTime = (currentTime - autoRotateObjects[i].lastTime) / 1000.0; // Convert to seconds
+            autoRotateObjects[i].lastTime = currentTime;
+
+            // Update rotation angles
+            autoRotateObjects[i].angles.x += rotationSpeeds.x * deltaTime * 60; // 60 degrees per second at speed 1.0
+            autoRotateObjects[i].angles.y += rotationSpeeds.y * deltaTime * 60;
+            autoRotateObjects[i].angles.z += rotationSpeeds.z * deltaTime * 60;
+
+            // Apply rotation
+            const obj = obj_vec[i];
+            if (obj) {
+                obj.rotate_vec = vec3.create([
+                    autoRotateObjects[i].angles.x % 360,
+                    autoRotateObjects[i].angles.y % 360,
+                    autoRotateObjects[i].angles.z % 360
+                ]);
+
+                // Update UI sliders if this is the currently selected object
+                const selectedObjId = document.getElementById('object_selector').value;
+                if (i.toString() === selectedObjId) {
+                    document.getElementById("selected_rotateX").value = autoRotateObjects[i].angles.x % 360;
+                    document.getElementById("selected_rotateY").value = autoRotateObjects[i].angles.y % 360;
+                    document.getElementById("selected_rotateZ").value = autoRotateObjects[i].angles.z % 360;
+                }
+            }
+        }
+    }
+
+    function updateAutoRotateUI(objId) {
+        document.getElementById('selected_auto_rotate').checked = autoRotateObjects[objId]?.active || false;
+    }
+
+    // Modify the existing object selection handler to update auto-rotate UI
+    const originalUpdateSelectedObject = window.updateSelectedObject || function(){};
+    window.updateSelectedObject = function(type) {
+        originalUpdateSelectedObject(type);
+        if (type === 'select') {
+            const objId = document.getElementById('object_selector').value;
+            updateAutoRotateUI(objId);
+        }
+    };
+</script>
+
 <!-- 
     TODO HERE: 
     modify fragment shader or write another one
@@ -2363,6 +2484,23 @@
 
     // Call scanTexturesDirectory when the page loads
     window.addEventListener('load', scanTexturesDirectory);
+
+    // Update checkbox state when changing selected object
+    function updateAutoRotateUI(objId) {
+        document.getElementById('selected_auto_rotate').checked = autoRotateObjects[objId]?.active || false;
+    }
+
+    // Extend the existing updateSelectedObject function
+    const existingUpdateSelectedObject = window.updateSelectedObject;
+    window.updateSelectedObject = function(type) {
+        if (existingUpdateSelectedObject) {
+            existingUpdateSelectedObject(type);
+        }
+        if (type === 'select') {
+            const objId = document.getElementById('object_selector').value;
+            updateAutoRotateUI(objId);
+        }
+    };
 </script>
 </head>
 
@@ -2790,6 +2928,37 @@
                                     </td>
                                 </tr>
                             </table>
+                        </div>
+
+                        <!-- Auto-rotation controls -->
+                        <div class="control-group">
+                            <strong>Auto Rotation</strong>
+                            <div class="auto-rotate-control">
+                                <label>
+                                    <input type="checkbox" id="selected_auto_rotate" onchange="toggleAutoRotate(document.getElementById('object_selector').value)">
+                                    Enable Auto-rotation
+                                </label>
+                            </div>
+                            <div class="rotation-speed-control">
+                                <div class="range-container">
+                                    <span>X Speed:</span>
+                                    <input type="range" id="rotation_speed_x" min="0" max="5" step="0.1" value="1.0" 
+                                           oninput="updateRotationSpeed('x', this.value)">
+                                    <span id="speed_x_value">1.0</span>
+                                </div>
+                                <div class="range-container">
+                                    <span>Y Speed:</span>
+                                    <input type="range" id="rotation_speed_y" min="0" max="5" step="0.1" value="1.0"
+                                           oninput="updateRotationSpeed('y', this.value)">
+                                    <span id="speed_y_value">1.0</span>
+                                </div>
+                                <div class="range-container">
+                                    <span>Z Speed:</span>
+                                    <input type="range" id="rotation_speed_z" min="0" max="5" step="0.1" value="1.0"
+                                           oninput="updateRotationSpeed('z', this.value)">
+                                    <span id="speed_z_value">1.0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
