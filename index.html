@@ -625,25 +625,29 @@
     }
 
     .right-panel {
-        position: fixed;
-        top: 0;
-        right: 0;
+        position: relative;  /* Change to relative positioning */
         width: 320px;
         height: 100vh;
-        background-color: #f0f0f0;
-        padding: 10px 10px 10px 34px; /* Add left padding for the toggle button */
+        background-color: #f5f5f5;
+        padding: 10px;
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: auto;
         z-index: 1000;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #86c3fe;
+        border-radius: 10px;
+        margin-right: -10px;  /* Add negative margin to align with edge */
     }
-    
-    /* Toggle button for right panel */
+
+    .right-panel.collapsed {
+        transform: translateX(calc(100% + 10px));  /* Adjust transform to account for margin */
+    }
+
     .right-panel-toggle {
         position: absolute;
-        left: -24;  /* Changed from -24px to 0 */
-        transform: translateY(-50%);
+        left: -24px;  /* Position button outside the panel */
+        top: 10px;
         width: 24px;
         height: 60px;
         background-color: #86c3fe;
@@ -655,16 +659,15 @@
         justify-content: center;
         font-size: 16px;
         z-index: 1001;
-        border-radius: 4px 0 0 -4px;
+        border-radius: 4px 0 0 4px;
         box-shadow: -2px 0 4px rgba(0,0,0,0.1);
-        right: 350px;
-        top: 10px;
+        transition: all 0.3s ease-in-out;
     }
-    
+
     .right-panel-toggle:hover {
         background-color: #aaa0f8;
     }
-    
+
     .right-panel.collapsed {
         transform: translateX(320px);
     }
@@ -1927,13 +1930,15 @@
                 var selector = document.getElementById("object_selector");
                 selector.remove(index);
 
-                // Remove texture assignment
+                // Remove texture assignment and settings
                 delete modelTextures[index];
-                
-                // Update texture selectors
-                updateTextureSelectors();
+                delete modelTextureSettings[index];
             }
         }
+        // Update texture selectors
+        updateTextureSelectors();
+        // Update texture model selector
+        updateTextureModelSelector();
     }
 
     // Add these new functions for texture handling
@@ -2289,11 +2294,75 @@
         // Update WebGL canvas size if needed
         const canvas = document.getElementById('ICG-canvas');
         if (canvas) {
-            gl.viewportWidth = canvas.width = canvas.offsetWidth;
-            gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
-            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            // Give the DOM a moment to update panel states
+            requestAnimationFrame(() => {
+                gl.viewportWidth = canvas.width = canvas.offsetWidth;
+                gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+                gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            });
         }
     }
+
+    function handleCustomModelSelect(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Check if file is a JSON file
+        if (!file.name.match(/\.json$/i)) {
+            alert("Please select a valid model file (.json)");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const modelData = JSON.parse(e.target.result);
+                
+                // Create a unique name for the custom model
+                const modelName = file.name;
+                
+                // Add the model to the scene
+                const index = obj_names.length;
+                obj_names.push(modelName);
+                
+                // Create new CGObject with default parameters
+                const defaultTrans = vec3.create([0, 0, -37]); // Default position
+                const defaultScale = vec3.create([5, 5, 5]); // Default scale
+                obj_vec.push(new CGObject(index, modelName, 
+                    defaultTrans,
+                    obj_default_rotate[0], 
+                    defaultScale, 
+                    obj_default_shear));
+                
+                // Load the model data
+                handleLoaded(obj_vec[index], modelData);
+                
+                // Update object selector
+                var selector = document.getElementById("object_selector");
+                var option = document.createElement("option");
+                option.value = index;
+                option.text = modelName.replace(".json", "");
+                selector.add(option);
+                
+                // Update texture selectors
+                updateTextureSelectors();
+                updateTextureModelSelector();
+                
+                // Update the display
+                document.getElementById("current-model").textContent = `Current model: ${modelName}`;
+                
+                // Clear the input
+                input.value = '';
+            } catch (error) {
+                alert("Error loading model: " + error.message);
+                console.error("Error loading model:", error);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // Call scanTexturesDirectory when the page loads
+    window.addEventListener('load', scanTexturesDirectory);
 </script>
 </head>
 
@@ -2539,7 +2608,7 @@
         </div>
 
         <div class="right-panel">
-            <button class="right-panel-toggle" onclick="toggleRightPanel('right')">&rarr;</button>
+            <button class="right-panel-toggle" onclick="toggleRightPanel()">◀</button>
             <div class="control-group">
                 <strong>Model Selection</strong>
                 <div style="margin-left: 10px;">
@@ -2558,6 +2627,19 @@
                             <tr><td><input type="checkbox" value="Church_s.json" onchange="handleModelSelection(this)"> Church</td></tr>
                             <tr><td><input type="checkbox" value="Car_road.json" onchange="handleModelSelection(this)"> Car Road</td></tr>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <strong>Custom Model Import</strong>
+                <div style="margin-left: 10px;">
+                    <button onclick="document.getElementById('model-file-input').click()" style="width: 100%; padding: 8px; background: #86c3fe; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 10px;">
+                        Choose Model File (.json)
+                    </button>
+                    <input type="file" id="model-file-input" accept=".json" style="display: none;" onchange="handleCustomModelSelect(this)">
+                    <div id="current-model" style="margin-top: 10px; font-size: 0.9em;">
+                        No custom model selected
                     </div>
                 </div>
             </div>
@@ -3180,12 +3262,15 @@
             button.innerHTML = bottomPanel.classList.contains('collapsed') ? '&uarr;' : '&darr;';
         }
 
-        // Update WebGL canvas size
-        if (panel === 'left' || panel === 'right') {
-            const canvas = document.getElementById('ICG-canvas');
-            gl.viewportWidth = canvas.width = canvas.offsetWidth;
-            gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
-            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+        // Update WebGL canvas size for any panel toggle
+        const canvas = document.getElementById('ICG-canvas');
+        if (canvas) {
+            // Give the DOM a moment to update panel states
+            requestAnimationFrame(() => {
+                gl.viewportWidth = canvas.width = canvas.offsetWidth;
+                gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+                gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            });
         }
     }
 
@@ -3203,6 +3288,17 @@
         } else {
             icon.textContent = '◀';
         }
+        
+        // Update WebGL canvas size
+        const canvas = document.getElementById('ICG-canvas');
+        if (canvas) {
+            // Give the DOM a moment to update panel states
+            requestAnimationFrame(() => {
+                gl.viewportWidth = canvas.width = canvas.offsetWidth;
+                gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+                gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            });
+        }
     }
 
     function toggleRightPanel() {
@@ -3218,15 +3314,17 @@
             btn.textContent = '◀';
         }
         
-        // Update WebGL canvas size if needed
+        // Update WebGL canvas size
         const canvas = document.getElementById('ICG-canvas');
         if (canvas) {
-            gl.viewportWidth = canvas.width = canvas.offsetWidth;
-            gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
-            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            // Give the DOM a moment to update panel states
+            requestAnimationFrame(() => {
+                gl.viewportWidth = canvas.width = canvas.offsetWidth;
+                gl.viewportHeight = canvas.height = canvas.offsetWidth * (500/1060);
+                gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            });
         }
     }
     </script>
 </body>
-</html>
-</html>
+</html></html>
