@@ -1,6 +1,6 @@
 # Interactive 3D Graphics in WebGL: Transform Multiple object, Shading, Lighting Effect & Animation
 
-This project is a WebGL-based 3D rendering application that demonstrates various shading techniques and interactive features for computer graphics.
+This project is a WebGL-based 3D application that demonstrates various shading, transformation, lighting effect, texturing, animation, multiple objects rendering techniques and interactive features for computer graphics.
 
 ---
 
