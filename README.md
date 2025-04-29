@@ -5,7 +5,9 @@ This project is a WebGL-based 3D application that demonstrates various shading, 
 ---
 
 ## Demo
+
 https://github.com/Akinesia112/Interactive-Computer-Graphics/blob/main/demo-ICG.mp4
+
  [![Watch the video](https://github.com/user-attachments/assets/8c491dba-aec4-47b9-be2e-b4f2f5b94e4d)](https://youtu.be/UW7vukE7RjA)
 
 ---
